@@ -44,7 +44,7 @@ export const ui: Record<Locale, UIStrings> = {
     hero: {
       badge: "コピペで遊べるプロンプト集",
       title1: "貼るだけで、",
-      title2: "AIが相手。",
+      title2: "対戦相手。",
       lead: "AIチャットにそのまま貼り付けるだけでゲームになるプロンプトを集めました。インストールもログインも不要。スマホでもPCでも、ワンクリックでコピーして、いつものAIに貼るだけです。",
       ctaGames: "ゲームを選ぶ（{count}種）",
       ctaHowTo: "使い方を見る",

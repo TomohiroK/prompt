@@ -45,7 +45,7 @@ export function HeroPoster({ locale }: { locale: Locale }) {
       </a>
 
       {/* 画像の中のボタンは押せないので、直下に実物を置く */}
-      <div className="mx-auto -mt-2 flex max-w-6xl flex-wrap items-center justify-center gap-3 px-4 pb-2 sm:gap-4 sm:px-6">
+      <div className="mx-auto mt-5 flex max-w-6xl flex-wrap items-center justify-center gap-3 px-4 sm:mt-6 sm:gap-4 sm:px-6">
         <a
           href="#games"
           className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-magenta px-6 text-base font-black whitespace-nowrap text-white ring-[3px] ring-purple shadow-[5px_6px_0_0_var(--color-purple)] transition-all hover:-translate-y-0.5 hover:bg-purple focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple sm:text-lg"
@@ -61,7 +61,7 @@ export function HeroPoster({ locale }: { locale: Locale }) {
         </a>
       </div>
 
-      <p className="mx-auto mt-3 max-w-2xl px-4 text-center text-sm leading-relaxed font-black text-purple sm:px-6">
+      <p className="mx-auto mt-4 max-w-xl px-4 text-center text-[13px] leading-relaxed font-black text-purple sm:px-6 sm:text-sm">
         {pop.sub}
       </p>
     </section>

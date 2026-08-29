@@ -63,10 +63,11 @@ export type HeroPoster = {
 };
 
 export const heroPoster: Partial<Record<Locale, HeroPoster>> = {
-  // ja: {
-  //   src: "/hero/poster-ja.png",
-  //   alt: "貼るだけで、AIが相手。AIチャットに貼るだけでゲームが始まります。",
-  //   width: 1129,
-  //   height: 1400,
-  // },
+  ja: {
+    // 配信するのは WebP。入稿された PNG は 2.4MB あり、そのままでは重すぎる
+    src: "/hero/poster-ja.webp",
+    alt: "貼るだけで、対戦相手。AIチャットにルールを貼り付けると、AIがゲームの相手になります。",
+    width: 1122,
+    height: 1402,
+  },
 };
