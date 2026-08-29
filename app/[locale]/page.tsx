@@ -3,6 +3,7 @@ import { games } from "@/content/games";
 import { ui } from "@/content/ui";
 import { editorial, latinLabels, poster } from "@/content/editorial";
 import { GameCard } from "@/components/GameCard";
+import { HeroPoster } from "@/components/HeroPoster";
 import { HeroFigure } from "@/components/art/HeroFigure";
 import { Plush } from "@/components/art/Plush";
 import { WindowMock } from "@/components/art/WindowMock";
@@ -19,7 +20,7 @@ import {
   BurstShape,
 } from "@/components/art/Decor";
 import { Kicker, PopTitle, Rail, SectionHead } from "@/components/Type";
-import { site } from "@/lib/site";
+import { heroPoster, site } from "@/lib/site";
 import { format, isLocale, locales } from "@/lib/i18n";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -61,6 +62,10 @@ export default async function HomePage({ params }: PageProps) {
       />
 
       {/* ============ キービジュアル ============ */}
+      {/* その言語のポスター画像があればそれを敷き、無ければ組版で作った版を出す */}
+      {heroPoster[locale] ? (
+        <HeroPoster locale={locale} />
+      ) : (
       <section className="relative overflow-hidden pb-10 sm:pb-14">
         <Rays />
         <Confetti />
@@ -187,6 +192,8 @@ export default async function HomePage({ params }: PageProps) {
         />
 
       </section>
+
+      )}
 
       <Ticker text={latinLabels.ticker} className="bg-purple py-2 text-white" />
 

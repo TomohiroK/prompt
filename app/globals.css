@@ -15,6 +15,7 @@
   --color-pink: #ff7ac0;
   --color-pink-soft: #ffd3ea;
   --color-purple: #6a2cc0;
+  --color-purple-deep: #4a1a92;
   --color-purple-2: #8b44e0;
   --color-violet: #b57bf0;
 
@@ -46,19 +47,19 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  background-color: #f3e6fd;
+  background-color: #e4c9fd;
   background-image:
     radial-gradient(
-      110% 70% at 82% -6%,
-      #ffd9f0 0%,
-      rgba(255, 217, 240, 0) 56%
+      118% 74% at 86% -10%,
+      #ff8fd8 0%,
+      rgba(255, 143, 216, 0) 58%
     ),
     radial-gradient(
-      95% 62% at -6% 104%,
-      #d7c0ff 0%,
-      rgba(215, 192, 255, 0) 62%
+      102% 66% at -10% 106%,
+      #9b5cf0 0%,
+      rgba(155, 92, 240, 0) 64%
     ),
-    linear-gradient(168deg, #fdeefe 0%, #f0dffc 44%, #dcc5fb 100%);
+    linear-gradient(168deg, #f7ddff 0%, #e0bcfb 40%, #bb8bf3 100%);
   background-attachment: fixed;
 }
 
@@ -123,6 +124,41 @@ body {
  * --------------------------------------------------------------- */
 .pop-stroke {
   -webkit-text-stroke: 0.085em currentColor;
+}
+
+/* 押し出しの側面。段を積んで奥行きを作る */
+.extrude {
+  text-shadow:
+    0.013em 0.013em 0 var(--extrude-color),
+    0.026em 0.026em 0 var(--extrude-color),
+    0.039em 0.039em 0 var(--extrude-color),
+    0.052em 0.052em 0 var(--extrude-color),
+    0.065em 0.065em 0 var(--extrude-color),
+    0.078em 0.078em 0 var(--extrude-color),
+    0.091em 0.091em 0 var(--extrude-color),
+    0.104em 0.104em 0 var(--extrude-color),
+    0.117em 0.117em 0 var(--extrude-color),
+    0.130em 0.130em 0 var(--extrude-color),
+    0.143em 0.143em 0 var(--extrude-color),
+    0.156em 0.156em 0 var(--extrude-color),
+    0.169em 0.169em 0 var(--extrude-color),
+    0.182em 0.182em 0 var(--extrude-color),
+    0.195em 0.195em 0 var(--extrude-color),
+    0.208em 0.208em 0 var(--extrude-color);
+}
+
+/* 面のグラデーション。上を白く、下をピンクに落として光沢を作る */
+.face-grad {
+  background-image: linear-gradient(
+    177deg,
+    #ffffff 0%,
+    #ffffff 68%,
+    #ffe7f7 88%,
+    #ffcdec 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .pop-stroke-sm {
   -webkit-text-stroke: 0.06em currentColor;

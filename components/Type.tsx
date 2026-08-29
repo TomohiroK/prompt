@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 /**
  * 押し出し文字。
@@ -8,26 +8,37 @@ import type { ReactNode } from "react";
  */
 type Tone = "white" | "purple" | "magenta" | "sun";
 
-const tones: Record<Tone, { face: string; edge: string; drop: string }> = {
+/**
+ * 面 / 縁 / 押し出しの3色。
+ * face に "grad" を指定した場合は、単色ではなく面のグラデーションを使う。
+ */
+const tones: Record<
+  Tone,
+  { face: string; edge: string; extrude: string; grad: boolean }
+> = {
   white: {
     face: "#ffffff",
     edge: "var(--color-magenta)",
-    drop: "var(--color-purple)",
+    extrude: "var(--color-purple-deep)",
+    grad: true,
   },
   purple: {
     face: "var(--color-purple)",
     edge: "#ffffff",
-    drop: "var(--color-magenta)",
+    extrude: "var(--color-magenta)",
+    grad: false,
   },
   magenta: {
     face: "var(--color-magenta)",
     edge: "#ffffff",
-    drop: "var(--color-purple)",
+    extrude: "var(--color-purple)",
+    grad: false,
   },
   sun: {
     face: "var(--color-sun)",
     edge: "var(--color-purple)",
-    drop: "var(--color-magenta)",
+    extrude: "var(--color-magenta)",
+    grad: false,
   },
 };
 
@@ -69,17 +80,25 @@ export function PopTitle({
   wave?: boolean;
   className?: string;
 }) {
-  const { face, edge, drop } = tones[tone];
+  const { face, edge, extrude, grad } = tones[tone];
 
   return (
     <span className={`relative inline-block ${className}`}>
+      {/* 押し出しの側面。縁と同じ太さで抜いてから段を積む */}
       <span
         aria-hidden="true"
-        className="pop-stroke absolute inset-0 translate-x-[0.055em] translate-y-[0.06em]"
-        style={{ color: drop }}
+        className="pop-stroke extrude absolute inset-0"
+        style={
+          {
+            color: extrude,
+            "--extrude-color": extrude,
+          } as CSSProperties
+        }
       >
         <Glyphs text={text} wave={wave} />
       </span>
+
+      {/* 縁 */}
       <span
         aria-hidden="true"
         className="pop-stroke absolute inset-0"
@@ -87,7 +106,12 @@ export function PopTitle({
       >
         <Glyphs text={text} wave={wave} />
       </span>
-      <span className="relative" style={{ color: face }}>
+
+      {/* 面 */}
+      <span
+        className={`relative ${grad ? "face-grad" : ""}`}
+        style={grad ? undefined : { color: face }}
+      >
         <Glyphs text={text} wave={wave} />
       </span>
     </span>
