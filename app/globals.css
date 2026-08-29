@@ -1,14 +1,24 @@
 @import "tailwindcss";
 
+/*
+ * アートディレクション
+ * ------------------------------------------------------------------
+ * 基調は「紙」。ダークUI・グラデーション・ガラス質感は使わない。
+ * 地はわずかに黄みのあるオフホワイト（印刷用紙）、文字は墨。
+ * そこへ蛍光イエロー / ショッキングピンク / ターコイズを面で置き、
+ * ウルトラマリンを小さな差し色として効かせる。
+ */
 @theme {
-  --color-bg: #0b0d14;
-  --color-surface: #141824;
-  --color-surface-2: #1b2030;
-  --color-line: #262d40;
-  --color-ink: #e9ebf4;
-  --color-muted: #99a1ba;
-  --color-accent: #7c6cff;
-  --color-accent-2: #34d8e4;
+  --color-paper: #f4f0e4;
+  --color-paper-2: #e9e2cf;
+  --color-paper-3: #fbf9f2;
+  --color-ink: #14120e;
+  --color-ink-2: #4b4438;
+  --color-flare: #e6ff1c; /* 蛍光イエロー: 視線を止める主アクセント */
+  --color-shock: #ff2d6f; /* ショッキングピンク */
+  --color-aqua: #00bec3; /* ターコイズ */
+  --color-ultra: #2a30ee; /* 小さな差し色 */
+  --color-skin: #f6d0ad;
 
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, "Hiragino Kaku Gothic ProN",
@@ -19,30 +29,128 @@
 
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
-  background-color: var(--color-bg);
+  background-color: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  /* iOS Safari で横スクロールが出ないようにする */
   overflow-x: hidden;
 }
 
 ::selection {
-  background-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+  background-color: var(--color-flare);
+  color: var(--color-ink);
 }
 
-/* 画面外の装飾グラデーション（クリックを奪わないよう pointer-events は無効） */
-.glow {
+/* ---------------------------------------------------------------
+ * 紙の質感。ベタ塗りの平坦さを消すための、ごく薄い粒子と刷りムラ。
+ * --------------------------------------------------------------- */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image:
+    radial-gradient(circle at 1px 1px, var(--color-ink) 1px, transparent 0);
+  background-size: 4px 4px;
+}
+
+/* 装飾は常にクリックを奪わない */
+.deco {
   pointer-events: none;
 }
 
-/* プロンプト本文。長文でも崩れないように折り返しを明示する */
+/* ---------------------------------------------------------------
+ * タイポグラフィ技法
+ * --------------------------------------------------------------- */
+
+/* 長体（水平方向に詰めた都市型の見出し） */
+.tighten {
+  display: inline-block;
+  transform: scaleX(0.9);
+  transform-origin: left center;
+}
+
+/* アウトライン文字。塗りを抜き、輪郭だけで見せる */
+.outlined {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-ink);
+  paint-order: stroke fill;
+}
+.outlined-paper {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-paper);
+}
+@media (min-width: 640px) {
+  .outlined {
+    -webkit-text-stroke-width: 2.5px;
+  }
+  .outlined-paper {
+    -webkit-text-stroke-width: 2.5px;
+  }
+}
+
+/* 縦組み。CJKは正立、欧文は回転させて誌面の柱として使う */
+.tate {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-feature-settings: "vkna" 1;
+}
+.tate-latin {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* 字間。サブコピーは広く、見出しは詰める */
+.track-wide {
+  letter-spacing: 0.42em;
+}
+.track-tight {
+  letter-spacing: -0.045em;
+}
+
+/* 見出しが折り返すときに、行長を均等に割る */
+.balance {
+  text-wrap: balance;
+}
+
+/* 罫線。印刷物の構造を画面に持ち込む */
+.rule-ink {
+  border-color: var(--color-ink);
+}
+
+/* プロンプト本文 */
 .prompt-body {
   white-space: pre-wrap;
   word-break: break-word;
   overflow-wrap: anywhere;
+}
+
+/* 版ズレ（ミスレジストレーション）。刷りのズレを違和感として意図的に使う */
+.misprint-layer {
+  position: absolute;
+  inset: 0;
+  transform: translate(0.105em, 0.085em);
+  /* 蛍光イエローは紙の上で沈む。刷りズレの版はターコイズで取る */
+  color: var(--color-aqua);
+  z-index: 0;
+}
+.misprint-top {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ticker-track {
+    animation: ticker 32s linear infinite;
+  }
+}
+@keyframes ticker {
+  to {
+    transform: translateX(-50%);
+  }
 }

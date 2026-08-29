@@ -10,7 +10,8 @@ type Props = {
   /** コピー回数の集計キー。ランキング用に記録される */
   slug: string;
   labels: { label: string; copied: string; error: string };
-  /** lg: 詳細ページの主ボタン / sm: 一覧カード用 */
+  /** 置かれる地色に合わせて反転させる */
+  tone?: "ink" | "paper";
   size?: "sm" | "lg";
   className?: string;
 };
@@ -66,6 +67,7 @@ export function CopyButton({
   text,
   slug,
   labels,
+  tone = "ink",
   size = "lg",
   className = "",
 }: Props) {
@@ -93,7 +95,11 @@ export function CopyButton({
       setState("copied");
       recordCopy(slug);
     } catch (error) {
-      console.error("[CopyButton] copy failed", { slug, length: text.length, error });
+      console.error("[CopyButton] copy failed", {
+        slug,
+        length: text.length,
+        error,
+      });
       setState("error");
     }
 
@@ -108,14 +114,19 @@ export function CopyButton({
 
   const sizeClasses =
     size === "lg"
-      ? "w-full min-h-14 px-4 py-4 text-base sm:px-5 sm:text-lg"
-      : "w-full min-h-12 px-3 py-3 text-sm sm:px-4 sm:text-base";
+      ? "w-full min-h-14 px-4 text-base sm:text-lg"
+      : "w-full min-h-12 px-3 text-sm";
+
+  const idleTone =
+    tone === "ink"
+      ? "bg-ink text-paper hover:bg-shock"
+      : "bg-paper-3 text-ink hover:bg-flare";
 
   const toneClasses = isCopied
-    ? "bg-emerald-400 text-[#06210f] shadow-emerald-400/20"
+    ? "bg-flare text-ink"
     : isError
-      ? "bg-rose-400 text-[#2a0710] shadow-rose-400/20"
-      : "bg-linear-to-r from-accent to-accent-2 text-[#0b0d14] shadow-accent/25 hover:brightness-110 active:brightness-95";
+      ? "bg-shock text-paper-3"
+      : idleTone;
 
   return (
     <button
@@ -123,11 +134,19 @@ export function CopyButton({
       onClick={handleClick}
       data-copy-slug={slug}
       data-copy-state={state}
-      className={`inline-flex items-center justify-center gap-2 rounded-xl font-bold whitespace-nowrap shadow-lg transition duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-2 ${sizeClasses} ${toneClasses} ${className}`}
+      className={`group inline-flex items-center justify-between gap-3 border-2 border-ink font-black tracking-[0.02em] whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${sizeClasses} ${toneClasses} ${className}`}
     >
-      <CopyIcon state={state} />
-      <span aria-live="polite">
-        {isCopied ? labels.copied : isError ? labels.error : labels.label}
+      <span className="flex items-center gap-2">
+        <CopyIcon state={state} />
+        <span aria-live="polite">
+          {isCopied ? labels.copied : isError ? labels.error : labels.label}
+        </span>
+      </span>
+      <span
+        aria-hidden="true"
+        className="text-lg leading-none transition-transform duration-150 group-hover:translate-x-1"
+      >
+        {isCopied ? "✓" : "→"}
       </span>
     </button>
   );
@@ -142,7 +161,7 @@ function CopyIcon({ state }: { state: CopyState }) {
         className="size-5 shrink-0"
         fill="none"
         stroke="currentColor"
-        strokeWidth="2.2"
+        strokeWidth="2.4"
         strokeLinecap="round"
         strokeLinejoin="round"
       >
@@ -158,11 +177,11 @@ function CopyIcon({ state }: { state: CopyState }) {
       className="size-5 shrink-0"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.8"
+      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <rect x="7" y="7" width="9" height="10" rx="2" />
+      <rect x="7" y="7" width="9" height="10" rx="1" />
       <path d="M13 4H6a2 2 0 0 0-2 2v8" />
     </svg>
   );

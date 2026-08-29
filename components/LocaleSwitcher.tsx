@@ -26,7 +26,7 @@ export function LocaleSwitcher({
     <details className="relative">
       <summary
         aria-label={label}
-        className="flex min-h-11 cursor-pointer list-none items-center gap-1.5 rounded-lg px-2.5 text-xs font-semibold whitespace-nowrap text-muted transition hover:bg-surface hover:text-ink sm:text-sm [&::-webkit-details-marker]:hidden"
+        className="flex min-h-11 cursor-pointer list-none items-center gap-1.5 border-2 border-ink bg-flare px-2 text-[11px] font-black whitespace-nowrap transition-colors hover:bg-ink hover:text-flare sm:px-2.5 sm:text-xs [&::-webkit-details-marker]:hidden"
       >
         <svg
           aria-hidden="true"
@@ -34,7 +34,7 @@ export function LocaleSwitcher({
           className="size-4 shrink-0"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.6"
+          strokeWidth="1.8"
         >
           <circle cx="10" cy="10" r="7.2" />
           <path d="M2.8 10h14.4M10 2.8c1.9 2 2.9 4.5 2.9 7.2s-1 5.2-2.9 7.2c-1.9-2-2.9-4.5-2.9-7.2s1-5.2 2.9-7.2z" />
@@ -43,14 +43,14 @@ export function LocaleSwitcher({
         <span className="hidden sm:inline">{localeNames[locale]}</span>
       </summary>
 
-      <ul className="absolute right-0 z-30 mt-1 w-40 overflow-hidden rounded-xl border border-line bg-surface py-1 shadow-2xl shadow-black/40">
+      <ul className="absolute right-0 z-40 mt-1 w-40 border-2 border-ink bg-paper-3 shadow-[6px_6px_0_0_var(--color-ink)]">
         {locales.map((target) => (
-          <li key={target}>
+          <li key={target} className="border-b border-ink/15 last:border-b-0">
             <Link
               href={hrefFor(target)}
               hrefLang={target}
-              className={`flex min-h-11 items-center px-4 text-sm transition hover:bg-surface-2 ${
-                target === locale ? "font-bold text-accent-2" : "text-ink"
+              className={`flex min-h-11 items-center px-4 text-sm font-bold transition-colors hover:bg-flare ${
+                target === locale ? "bg-ink text-flare" : "text-ink"
               }`}
             >
               {localeNames[target]}
