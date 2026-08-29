@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+/*
+ * このサイトは「ゲームの一覧・概要・プロンプトのコピー」だけを扱う。
+ * 画面の役目は読ませることと、コピーさせること。
+ * 装飾でにぎやかにするのではなく、文字と余白で成立させる。
+ *
+ * 世界観はキービジュアルのポスター画像が担う。
+ * それ以外の面は静かに保ち、ポスターとぶつからないようにする。
+ */
+@theme {
+  --color-bg: #f7f2fd;
+  --color-surface: #ffffff;
+  --color-line: #e6dcf5;
+  --color-line-strong: #d3c3ec;
+
+  --color-ink: #241238;
+  --color-ink-2: #6b5b85;
+
+  --color-magenta: #e5187f;
+  --color-purple: #6a2cc0;
+  --color-lav: #f0e7fc;
+
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-magenta);
+  color: #fff;
+}
+
+.track-tight {
+  letter-spacing: -0.02em;
+}
+
+/* プロンプト本文 */
+.prompt-body {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}

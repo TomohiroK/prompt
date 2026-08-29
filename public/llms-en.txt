@@ -1,0 +1,41 @@
+# CHAT GAME
+
+URL: https://chat-game.vercel.app
+Japanese version: /llms.txt
+Detailed version: /llms-full-en.txt
+
+## Purpose
+CHAT GAME is a curated collection of prompts that turn any AI chat assistant
+(ChatGPT, Claude, Gemini, and others) into a playable game. Each prompt is
+copied to the clipboard with a single click and pasted directly into a chat.
+
+## Languages
+Languages: Japanese, English, Korean, Chinese, Spanish, Portuguese (the prompts themselves are translated too)
+URLs follow /{locale}/..., where the locale is one of ja, en, ko, zh, es, pt.
+A URL without a locale prefix is routed automatically from the browser's
+Accept-Language header, falling back to English when no supported language matches.
+
+## Audience
+- General users looking for something to play with an AI chat assistant
+- Prompt authors who want reference examples of game-master style prompts
+- Works on both mobile and desktop browsers
+
+## Game index (prefix each path with /{locale})
+- Number Guessing (/games/number-guess) - Ask two NPCs 10 questions total to deduce their hidden numbers. Difficulty: hard
+- Whodunit (/games/whodunit) - Interrogate three suspects and find the contradiction that exposes the culprit. Difficulty: normal
+- Word Wolf, solo edition (/games/word-wolf) - The AI plays four characters; one holds a different secret word. Difficulty: normal
+- Escape Room (/games/escape-room) - A text adventure with a 30-turn limit. Difficulty: normal
+- Haggle (/games/negotiation) - Negotiate for 10 turns against a merchant with a hidden reserve price. Difficulty: normal
+- 20 Questions (/games/twenty-questions) - Identify the AI's secret object within 20 yes/no questions. Difficulty: easy
+
+## How to use
+1. Open a game page and press the copy button
+2. Paste the prompt into an AI chat and send it
+3. The AI acts as game master; play by chatting normally
+
+## Design notes
+Every prompt embeds explicit fairness rules that forbid the AI from changing the
+hidden answer after the game starts, from contradicting earlier statements, and
+from fabricating a solution after seeing the player's guess.
+
+Last updated: 2026-08-29
