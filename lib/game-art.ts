@@ -1,65 +1,17 @@
 /**
- * ゲームごとの版面設計。
- * どれも明るい高彩度の面にし、暗い地色は使わない。
- * 一覧を並べたときに、色そのものが索引として働くよう1本ずつ変えている。
+ * ゲームごとの色。
+ * カード上端の細い罫1本にしか使わない。一覧を並べたときに、
+ * 色が索引として働く程度の役割に留めている。
  */
-export type GameArt = {
-  /** 表紙の地色 */
-  ground: string;
-  /** 地色の上に乗る文字色 */
-  onGround: string;
-  /** 差し色（記号・星・帯） */
-  accent: string;
-  /** 通し番号 */
-  index: string;
+const accents: Record<string, string> = {
+  "number-guess": "#e5187f",
+  whodunit: "#6a2cc0",
+  "word-wolf": "#9333ea",
+  "escape-room": "#0d9488",
+  negotiation: "#d97706",
+  "twenty-questions": "#2563eb",
 };
 
-export const gameArt: Record<string, GameArt> = {
-  "number-guess": {
-    ground: "var(--color-magenta)",
-    onGround: "#ffffff",
-    accent: "var(--color-sun)",
-    index: "01",
-  },
-  whodunit: {
-    ground: "var(--color-purple-2)",
-    onGround: "#ffffff",
-    accent: "var(--color-mint)",
-    index: "02",
-  },
-  "word-wolf": {
-    ground: "var(--color-violet)",
-    onGround: "#ffffff",
-    accent: "var(--color-sun)",
-    index: "03",
-  },
-  "escape-room": {
-    ground: "var(--color-mint)",
-    onGround: "var(--color-purple)",
-    accent: "var(--color-magenta)",
-    index: "04",
-  },
-  negotiation: {
-    ground: "var(--color-sun)",
-    onGround: "var(--color-purple)",
-    accent: "var(--color-magenta)",
-    index: "05",
-  },
-  "twenty-questions": {
-    ground: "var(--color-pink)",
-    onGround: "#ffffff",
-    accent: "var(--color-purple)",
-    index: "06",
-  },
-};
-
-export function getGameArt(slug: string): GameArt {
-  return (
-    gameArt[slug] ?? {
-      ground: "var(--color-violet)",
-      onGround: "#ffffff",
-      accent: "var(--color-sun)",
-      index: "00",
-    }
-  );
+export function getGameAccent(slug: string): string {
+  return accents[slug] ?? "#6a2cc0";
 }

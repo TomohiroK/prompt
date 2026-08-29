@@ -8,34 +8,25 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   const strings = ui[locale];
 
   return (
-    <header className="sticky top-0 z-30 border-b-[3px] border-purple bg-white/85 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-2 px-3 sm:h-16 sm:px-6">
+    <header className="sticky top-0 z-30 border-b border-line bg-bg/90 backdrop-blur-md">
+      <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-2 px-4 sm:h-16 sm:px-6">
         <Link
           href={`/${locale}`}
-          className="flex min-h-11 shrink-0 items-center gap-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple"
+          className="track-tight flex min-h-11 shrink-0 items-center text-base font-bold focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-magenta sm:text-lg"
         >
-          <span
-            aria-hidden="true"
-            className="grid size-9 place-items-center rounded-xl bg-linear-to-br from-magenta to-purple text-[13px] leading-none font-black text-white"
-          >
-            CG
-          </span>
-          {/* 320px 幅ではワードマークを畳み、ナビの折り返しを防ぐ */}
-          <span className="track-tight hidden text-sm font-black text-purple sm:inline sm:text-base">
-            {site.name}
-          </span>
+          {site.name}
         </Link>
 
-        <nav className="flex items-center gap-1 text-[11px] font-black sm:gap-2 sm:text-xs">
+        <nav className="flex items-center gap-1 text-sm sm:gap-2">
           <a
             href={`/${locale}#games`}
-            className="flex min-h-11 items-center rounded-full px-2.5 whitespace-nowrap text-purple transition-colors hover:bg-pink-soft sm:px-3"
+            className="flex min-h-11 items-center rounded-lg px-2.5 whitespace-nowrap transition-colors hover:text-magenta"
           >
             {strings.nav.games}
           </a>
           <a
             href={`/${locale}#how-to-use`}
-            className="flex min-h-11 items-center rounded-full px-2.5 whitespace-nowrap text-purple transition-colors hover:bg-pink-soft sm:px-3"
+            className="hidden min-h-11 items-center rounded-lg px-2.5 whitespace-nowrap transition-colors hover:text-magenta sm:flex"
           >
             {strings.nav.howToUse}
           </a>

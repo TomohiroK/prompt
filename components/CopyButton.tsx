@@ -10,8 +10,7 @@ type Props = {
   /** コピー回数の集計キー。ランキング用に記録される */
   slug: string;
   labels: { label: string; copied: string; error: string };
-  /** 置かれる地色に合わせて反転させる */
-  tone?: "magenta" | "white";
+  tone?: "solid" | "quiet";
   size?: "sm" | "lg";
   className?: string;
 };
@@ -67,7 +66,7 @@ export function CopyButton({
   text,
   slug,
   labels,
-  tone = "magenta",
+  tone = "solid",
   size = "lg",
   className = "",
 }: Props) {
@@ -114,18 +113,18 @@ export function CopyButton({
 
   const sizeClasses =
     size === "lg"
-      ? "w-full min-h-14 px-5 text-base sm:text-lg"
+      ? "w-full min-h-13 px-5 text-base"
       : "w-full min-h-12 px-4 text-sm";
 
   const idleTone =
-    tone === "magenta"
+    tone === "solid"
       ? "bg-magenta text-white hover:bg-purple"
-      : "bg-white text-purple hover:bg-sun";
+      : "border border-line-strong bg-surface text-ink hover:border-magenta hover:text-magenta";
 
   const toneClasses = isCopied
-    ? "bg-sun text-purple"
+    ? "bg-purple text-white"
     : isError
-      ? "bg-flame text-white"
+      ? "border border-red-400 bg-surface text-red-600"
       : idleTone;
 
   return (
@@ -134,19 +133,11 @@ export function CopyButton({
       onClick={handleClick}
       data-copy-slug={slug}
       data-copy-state={state}
-      className={`group inline-flex items-center justify-between gap-3 rounded-full font-black whitespace-nowrap ring-[3px] ring-purple shadow-[4px_5px_0_0_var(--color-purple)] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[5px_7px_0_0_var(--color-purple)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple ${sizeClasses} ${toneClasses} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-lg font-bold whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta ${sizeClasses} ${toneClasses} ${className}`}
     >
-      <span className="flex items-center gap-2">
-        <CopyIcon state={state} />
-        <span aria-live="polite">
-          {isCopied ? labels.copied : isError ? labels.error : labels.label}
-        </span>
-      </span>
-      <span
-        aria-hidden="true"
-        className="text-lg leading-none transition-transform duration-150 group-hover:translate-x-1"
-      >
-        {isCopied ? "✓" : "→"}
+      <CopyIcon state={state} />
+      <span aria-live="polite">
+        {isCopied ? labels.copied : isError ? labels.error : labels.label}
       </span>
     </button>
   );

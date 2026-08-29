@@ -1,34 +1,25 @@
 @import "tailwindcss";
 
 /*
- * アートディレクション（参考ビジュアルの解析にもとづく再構成）
- * ------------------------------------------------------------------
- * 明るい高彩度のピンク×パープル。暗部を作らない。
- * 画面は「集中線 + 網点 + 色紙」の3層で組み、その上に
- * 白面・マゼンタ縁・パープル影の3層で押し出した文字を置く。
+ * このサイトは「ゲームの一覧・概要・プロンプトのコピー」だけを扱う。
+ * 画面の役目は読ませることと、コピーさせること。
+ * 装飾でにぎやかにするのではなく、文字と余白で成立させる。
+ *
+ * 世界観はキービジュアルのポスター画像が担う。
+ * それ以外の面は静かに保ち、ポスターとぶつからないようにする。
  */
 @theme {
-  /* 地 —— 明るいラベンダーからピンクへ */
-  --color-lav: #c79bf2;
-  --color-lav-2: #ded0fb;
-  --color-magenta: #ff2e93;
-  --color-pink: #ff7ac0;
-  --color-pink-soft: #ffd3ea;
+  --color-bg: #f7f2fd;
+  --color-surface: #ffffff;
+  --color-line: #e6dcf5;
+  --color-line-strong: #d3c3ec;
+
+  --color-ink: #241238;
+  --color-ink-2: #6b5b85;
+
+  --color-magenta: #e5187f;
   --color-purple: #6a2cc0;
-  --color-purple-deep: #4a1a92;
-  --color-purple-2: #8b44e0;
-  --color-violet: #b57bf0;
-
-  /* 差し色 */
-  --color-sun: #ffd93d;
-  --color-flame: #ff4a34;
-  --color-mint: #45e0c8;
-
-  /* 文字。黒は使わず、濃い紫で受ける */
-  --color-ink: #3b1465;
-  --color-ink-2: #6b46a3;
-  --color-cream: #fffdfa;
-  --color-skin: #f6d0ad;
+  --color-lav: #f0e7fc;
 
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, "Hiragino Kaku Gothic ProN",
@@ -43,24 +34,11 @@ html {
 }
 
 body {
+  background-color: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  background-color: #e4c9fd;
-  background-image:
-    radial-gradient(
-      118% 74% at 86% -10%,
-      #ff8fd8 0%,
-      rgba(255, 143, 216, 0) 58%
-    ),
-    radial-gradient(
-      102% 66% at -10% 106%,
-      #9b5cf0 0%,
-      rgba(155, 92, 240, 0) 64%
-    ),
-    linear-gradient(168deg, #f7ddff 0%, #e0bcfb 40%, #bb8bf3 100%);
-  background-attachment: fixed;
 }
 
 ::selection {
@@ -68,126 +46,8 @@ body {
   color: #fff;
 }
 
-/* 装飾は常にクリックを奪わない */
-.deco {
-  pointer-events: none;
-}
-
-/* ---------------------------------------------------------------
- * 背景の3層
- * --------------------------------------------------------------- */
-
-/* 集中線。中心から放射状に白を薄く重ねる */
-.rays::before {
-  content: "";
-  position: absolute;
-  inset: -30% -10%;
-  pointer-events: none;
-  background: repeating-conic-gradient(
-    from 0deg at 50% 42%,
-    rgba(255, 255, 255, 0.5) 0deg 1.5deg,
-    rgba(255, 255, 255, 0) 1.6deg 6deg
-  );
-  opacity: 0.55;
-  -webkit-mask-image: radial-gradient(
-    closest-side,
-    transparent 6%,
-    #000 55%,
-    transparent 96%
-  );
-  mask-image: radial-gradient(
-    closest-side,
-    transparent 6%,
-    #000 55%,
-    transparent 96%
-  );
-}
-
-/* 網点。白い丸を等間隔に並べ、端に向かって消す */
-.halftone {
-  background-image: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.85) 1.7px,
-    transparent 1.9px
-  );
-  background-size: 9px 9px;
-}
-.halftone-fade {
-  -webkit-mask-image: linear-gradient(to bottom right, #000, transparent 78%);
-  mask-image: linear-gradient(to bottom right, #000, transparent 78%);
-}
-
-/* ---------------------------------------------------------------
- * 押し出し文字
- * 面・縁・影を別レイヤーで刷る。縁と影のレイヤーにだけ
- * 太い text-stroke をかけ、面のレイヤーは輪郭を持たせない。
- * --------------------------------------------------------------- */
-.pop-stroke {
-  -webkit-text-stroke: 0.085em currentColor;
-}
-
-/* 押し出しの側面。段を積んで奥行きを作る */
-.extrude {
-  text-shadow:
-    0.013em 0.013em 0 var(--extrude-color),
-    0.026em 0.026em 0 var(--extrude-color),
-    0.039em 0.039em 0 var(--extrude-color),
-    0.052em 0.052em 0 var(--extrude-color),
-    0.065em 0.065em 0 var(--extrude-color),
-    0.078em 0.078em 0 var(--extrude-color),
-    0.091em 0.091em 0 var(--extrude-color),
-    0.104em 0.104em 0 var(--extrude-color),
-    0.117em 0.117em 0 var(--extrude-color),
-    0.130em 0.130em 0 var(--extrude-color),
-    0.143em 0.143em 0 var(--extrude-color),
-    0.156em 0.156em 0 var(--extrude-color),
-    0.169em 0.169em 0 var(--extrude-color),
-    0.182em 0.182em 0 var(--extrude-color),
-    0.195em 0.195em 0 var(--extrude-color),
-    0.208em 0.208em 0 var(--extrude-color);
-}
-
-/* 面のグラデーション。上を白く、下をピンクに落として光沢を作る */
-.face-grad {
-  background-image: linear-gradient(
-    177deg,
-    #ffffff 0%,
-    #ffffff 68%,
-    #ffe7f7 88%,
-    #ffcdec 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.pop-stroke-sm {
-  -webkit-text-stroke: 0.06em currentColor;
-}
-
-/* ---------------------------------------------------------------
- * タイポグラフィ技法
- * --------------------------------------------------------------- */
-.tighten {
-  display: inline-block;
-  transform: scaleX(0.92);
-  transform-origin: left center;
-}
-.tate {
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-}
-.tate-latin {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-}
-.track-wide {
-  letter-spacing: 0.34em;
-}
 .track-tight {
-  letter-spacing: -0.035em;
-}
-.balance {
-  text-wrap: balance;
+  letter-spacing: -0.02em;
 }
 
 /* プロンプト本文 */
@@ -195,39 +55,4 @@ body {
   white-space: pre-wrap;
   word-break: break-word;
   overflow-wrap: anywhere;
-}
-
-/* 影のついた白カード。誌面の「貼り込み」を作る */
-.card-pop {
-  box-shadow:
-    0 0 0 3px var(--color-purple),
-    8px 9px 0 0 var(--color-purple);
-}
-.card-pop-sm {
-  box-shadow:
-    0 0 0 2.5px var(--color-purple),
-    5px 6px 0 0 var(--color-purple);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .ticker-track {
-    animation: ticker 34s linear infinite;
-  }
-  .bob {
-    animation: bob 3.4s ease-in-out infinite;
-  }
-}
-@keyframes ticker {
-  to {
-    transform: translateX(-50%);
-  }
-}
-@keyframes bob {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
 }
