@@ -1,11 +1,11 @@
-# Prompt Arcade
+# CHAT GAME
 
-URL: https://prompt-arcade.vercel.app
+URL: https://chat-game.vercel.app
 Japanese version: /llms.txt
 Detailed version: /llms-full-en.txt
 
 ## Purpose
-Prompt Arcade is a curated collection of prompts that turn any AI chat assistant
+CHAT GAME is a curated collection of prompts that turn any AI chat assistant
 (ChatGPT, Claude, Gemini, and others) into a playable game. Each prompt is
 copied to the clipboard with a single click and pasted directly into a chat.
 

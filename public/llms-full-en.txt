@@ -1,11 +1,11 @@
-# Prompt Arcade — Detailed version
+# CHAT GAME — Detailed version
 
-URL: https://prompt-arcade.vercel.app
+URL: https://chat-game.vercel.app
 Summary version: /llms-en.txt
 Japanese version: /llms-full.txt
 
 ## Overview
-Prompt Arcade collects prompts that turn a general AI chat assistant into a
+CHAT GAME collects prompts that turn a general AI chat assistant into a
 playable game. No install, login, or API key is needed. Every game page exposes
 the full prompt with a one-click copy button, and the layout is mobile-first so
 it works on a phone as well as a desktop browser.

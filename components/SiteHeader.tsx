@@ -18,7 +18,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
             aria-hidden="true"
             className="grid size-9 place-items-center rounded-xl bg-linear-to-br from-magenta to-purple text-[13px] leading-none font-black text-white"
           >
-            Q!
+            CG
           </span>
           {/* 320px 幅ではワードマークを畳み、ナビの折り返しを防ぐ */}
           <span className="track-tight hidden text-sm font-black text-purple sm:inline sm:text-base">

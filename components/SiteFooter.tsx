@@ -24,7 +24,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
               aria-hidden="true"
               className="grid size-10 place-items-center rounded-xl bg-white text-sm leading-none font-black text-purple"
             >
-              Q!
+              CG
             </span>
             <p className="track-tight text-2xl font-black">{site.name}</p>
           </div>

@@ -9,28 +9,28 @@ export type EditorialStrings = { rail: string; pickLine: string };
 
 export const editorial: Record<Locale, EditorialStrings> = {
   ja: {
-    rail: "貼るだけで、はじまる。",
-    pickLine: "今日の一本を選ぶ。",
+    rail: "貼るだけではじまる",
+    pickLine: "今日の一本を選ぶ",
   },
   en: {
-    rail: "Paste it. Play it.",
-    pickLine: "Pick tonight's one.",
+    rail: "PASTE AND PLAY",
+    pickLine: "Pick tonight's one",
   },
   ko: {
-    rail: "붙여넣으면, 시작된다.",
-    pickLine: "오늘의 한 편을 고르다.",
+    rail: "붙여넣으면 시작된다",
+    pickLine: "오늘의 한 편을 고르기",
   },
   zh: {
-    rail: "贴上去，就开始。",
-    pickLine: "挑一款，今晚就玩。",
+    rail: "贴上去就开始",
+    pickLine: "今晚挑一款",
   },
   es: {
-    rail: "Pégalo. Y empieza.",
-    pickLine: "Elige la de hoy.",
+    rail: "PEGA Y JUEGA",
+    pickLine: "Elige la de hoy",
   },
   pt: {
-    rail: "Cole. E comece.",
-    pickLine: "Escolha a de hoje.",
+    rail: "COLE E JOGUE",
+    pickLine: "Escolha a de hoje",
   },
 };
 
@@ -118,8 +118,8 @@ export const latinLabels = {
   tips: "FIELD NOTES",
   others: "ALSO IN THIS ISSUE",
   ticker: "COPY / PASTE / PLAY",
-  tagline: "PASTE IT. PLAY IT.",
-  credit: "PROMPT ARCADE",
+  tagline: "PASTE. PLAY. CHAT.",
+  credit: "CHAT GAME",
   features: ["NO INSTALL", "COPY & PASTE", "CHAT x GAME"],
 } as const;
 
@@ -152,10 +152,10 @@ export type PosterCopy = {
 
 export const poster: Record<Locale, PosterCopy> = {
   ja: {
-    tag: "ルールをコピペ。すぐ遊べる。",
+    tag: "ルールをコピペ / すぐ遊べる",
     sub: "AIチャットに貼るだけで、AIがゲーム相手になります。",
-    heart: "会話が、ゲームになる。",
-    templates: "ゲームの台本、そろってます。",
+    heart: "会話がゲームになる",
+    templates: "ゲームの台本そろってます",
     ctaBurst: "今すぐためす！",
     ctaMain: "ゲームを選ぶ",
     features: [
@@ -185,10 +185,10 @@ export const poster: Record<Locale, PosterCopy> = {
   },
 
   en: {
-    tag: "Copy the rules. Play right away.",
+    tag: "COPY THE RULES / PLAY NOW",
     sub: "Paste it into an AI chat and the AI becomes your opponent.",
-    heart: "A chat becomes a game.",
-    templates: "The scripts are ready.",
+    heart: "A chat becomes a game",
+    templates: "The scripts are ready",
     ctaBurst: "Try it now!",
     ctaMain: "Browse the games",
     features: [
@@ -218,10 +218,10 @@ export const poster: Record<Locale, PosterCopy> = {
   },
 
   ko: {
-    tag: "규칙을 복사. 바로 플레이.",
+    tag: "규칙을 복사 / 바로 플레이",
     sub: "AI 채팅에 붙여넣기만 하면, AI가 게임 상대가 됩니다.",
-    heart: "대화가 게임이 된다.",
-    templates: "게임 대본, 준비돼 있어요.",
+    heart: "대화가 게임이 된다",
+    templates: "게임 대본 준비 완료",
     ctaBurst: "지금 해보기!",
     ctaMain: "게임 고르기",
     features: [
@@ -251,10 +251,10 @@ export const poster: Record<Locale, PosterCopy> = {
   },
 
   zh: {
-    tag: "复制规则，马上开玩。",
+    tag: "复制规则 / 马上开玩",
     sub: "粘贴到 AI 聊天，AI 就成了你的对手。",
-    heart: "对话，就是一局游戏。",
-    templates: "游戏剧本，都备好了。",
+    heart: "对话就是一局游戏",
+    templates: "游戏剧本都备好了",
     ctaBurst: "马上试试！",
     ctaMain: "挑选游戏",
     features: ["复制粘贴就行", "六款游戏可玩", "边聊边玩"],
@@ -280,10 +280,10 @@ export const poster: Record<Locale, PosterCopy> = {
   },
 
   es: {
-    tag: "Copia las reglas. Juega ya.",
+    tag: "COPIA LAS REGLAS / JUEGA YA",
     sub: "Pégalo en un chat de IA y la IA se convierte en tu rival.",
-    heart: "El chat se vuelve juego.",
-    templates: "Los guiones ya están listos.",
+    heart: "El chat se vuelve juego",
+    templates: "Los guiones están listos",
     ctaBurst: "¡Pruébalo ya!",
     ctaMain: "Ver los juegos",
     features: [
@@ -313,10 +313,10 @@ export const poster: Record<Locale, PosterCopy> = {
   },
 
   pt: {
-    tag: "Copie as regras. Jogue já.",
+    tag: "COPIE AS REGRAS / JOGUE JÁ",
     sub: "Cole num chat de IA e a IA vira seu adversário.",
-    heart: "O chat vira jogo.",
-    templates: "Os roteiros já estão prontos.",
+    heart: "O chat vira jogo",
+    templates: "Os roteiros estão prontos",
     ctaBurst: "Experimente agora!",
     ctaMain: "Ver os jogos",
     features: [

@@ -6,12 +6,12 @@ import type { Locale } from "./i18n";
  * （仮説検証のたびにコンポーネントを書き換えない設計）
  */
 export const site = {
-  name: "Prompt Arcade",
-  nameJa: "プロンプトアーケード",
-  tagline: "コピーして貼るだけ。AIとゲームで遊ぶ。",
+  name: "CHAT GAME",
+  nameJa: "チャットゲーム",
+  tagline: "貼るだけで 対戦相手",
   description:
     "ChatGPT・Claude・Gemini にそのまま貼り付けて遊べる「ゲームになるプロンプト」を集めたサイト。ワンクリックでコピーして、AIとの対話をそのままゲームに変えられます。",
-  url: "https://prompt-arcade.vercel.app",
+  url: "https://chat-game.vercel.app",
   locale: "ja_JP",
   author: "TomohiroK",
 } as const;
