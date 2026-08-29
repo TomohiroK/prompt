@@ -3,6 +3,7 @@ import { ui } from "@/content/ui";
 import { latinLabels } from "@/content/editorial";
 import { format, type Locale } from "@/lib/i18n";
 import { CopyButton } from "./CopyButton";
+import { Star } from "./art/Decor";
 
 /**
  * プロンプト本文 + ワンクリックコピー + 貼り付け先へのリンク。
@@ -23,13 +24,15 @@ export function PromptPanel({
     <section
       id="prompt"
       aria-labelledby="prompt-heading"
-      className="scroll-mt-20 border-2 border-ink bg-paper-3 shadow-[6px_6px_0_0_var(--color-ink)]"
+      className="card-pop relative scroll-mt-20 overflow-hidden rounded-3xl bg-white"
     >
-      <div className="flex items-center justify-between gap-2 border-b-2 border-ink bg-ink px-4 py-2 text-paper">
-        <span className="text-[10px] font-black tracking-[0.28em] text-flare uppercase">
+      <Star className="absolute top-3 right-3 z-10 size-6 text-sun" />
+
+      <div className="flex items-center justify-between gap-2 bg-linear-to-r from-magenta to-purple px-4 py-2.5 text-white">
+        <span className="text-[10px] font-black tracking-[0.24em] uppercase">
           {latinLabels.prompt}
         </span>
-        <span className="text-[10px] font-black tracking-[0.14em]">
+        <span className="text-[10px] font-black tracking-[0.1em]">
           {format(strings.detail.promptUnit, {
             count: prompt.length.toLocaleString("en-US"),
           })}
@@ -37,10 +40,13 @@ export function PromptPanel({
       </div>
 
       <div className="p-4 sm:p-5">
-        <h2 id="prompt-heading" className="track-tight text-xl font-black sm:text-2xl">
+        <h2
+          id="prompt-heading"
+          className="track-tight text-xl font-black text-purple sm:text-2xl"
+        >
           {strings.detail.promptHeading}
         </h2>
-        <p className="mt-2 text-sm leading-relaxed text-ink-2">
+        <p className="mt-2 text-sm leading-relaxed font-bold text-ink-2">
           {strings.detail.promptLead}
         </p>
 
@@ -53,8 +59,8 @@ export function PromptPanel({
           />
         </div>
 
-        <div className="mt-5 border-t border-ink/20 pt-3">
-          <p className="text-[10px] font-black tracking-[0.2em] text-ink-2 uppercase">
+        <div className="mt-5 rounded-2xl bg-pink-soft/40 p-3">
+          <p className="text-[10px] font-black tracking-[0.14em] text-magenta uppercase">
             {strings.detail.openTarget}
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -64,7 +70,7 @@ export function PromptPanel({
                 href={service.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center gap-1.5 border-2 border-ink px-3 text-sm font-black whitespace-nowrap transition-colors hover:bg-aqua focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-white px-3.5 text-sm font-black whitespace-nowrap text-purple ring-2 ring-purple transition-colors hover:bg-sun focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple"
               >
                 {service.name}
                 <svg
@@ -86,9 +92,9 @@ export function PromptPanel({
           </div>
         </div>
 
-        <div className="mt-5 border-2 border-ink bg-paper">
+        <div className="mt-5 overflow-hidden rounded-2xl bg-pink-soft/25 ring-2 ring-pink-soft">
           <div className="max-h-[24rem] overflow-y-auto overscroll-contain p-3 sm:max-h-[32rem] sm:p-4">
-            <pre className="prompt-body font-mono text-[12.5px] leading-relaxed sm:text-[13.5px]">
+            <pre className="prompt-body font-mono text-[12.5px] leading-relaxed text-ink sm:text-[13.5px]">
               {prompt}
             </pre>
           </div>

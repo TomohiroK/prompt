@@ -2,10 +2,7 @@ import type { Difficulty, GameCategory } from "@/content/types";
 import { categoryLabels, difficultyLabels } from "@/content/types";
 import type { Locale } from "@/lib/i18n";
 
-/**
- * 分類の札。角丸のパステルチップではなく、罫線で囲った印刷物のラベルとして扱う。
- * 地色の上に置くため、色は currentColor に依存させて破綻を防ぐ。
- */
+/** 分類の札。地色の上に置くため、白のピルで固定して読ませる */
 export function CategoryBadge({
   category,
   locale,
@@ -17,7 +14,7 @@ export function CategoryBadge({
 }) {
   return (
     <span
-      className={`inline-flex items-center border border-current px-2 py-0.5 text-[10px] font-black tracking-[0.14em] whitespace-nowrap ${className}`}
+      className={`inline-flex items-center rounded-full bg-white px-2.5 py-1 text-[10px] font-black whitespace-nowrap text-purple ${className}`}
     >
       {categoryLabels[locale][category]}
     </span>
@@ -25,9 +22,9 @@ export function CategoryBadge({
 }
 
 const difficultyMark: Record<Difficulty, string> = {
-  easy: "●○○",
-  normal: "●●○",
-  hard: "●●●",
+  easy: "★☆☆",
+  normal: "★★☆",
+  hard: "★★★",
 };
 
 export function DifficultyBadge({
@@ -41,9 +38,9 @@ export function DifficultyBadge({
 }) {
   return (
     <span
-      className={`inline-flex items-center gap-1.5 text-[10px] font-black tracking-[0.14em] whitespace-nowrap ${className}`}
+      className={`inline-flex items-center gap-1.5 rounded-full bg-purple px-2.5 py-1 text-[10px] font-black whitespace-nowrap text-white ${className}`}
     >
-      <span aria-hidden="true" className="tracking-[0.1em]">
+      <span aria-hidden="true" className="text-sun">
         {difficultyMark[difficulty]}
       </span>
       {difficultyLabels[locale][difficulty]}

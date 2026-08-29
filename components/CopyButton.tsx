@@ -11,7 +11,7 @@ type Props = {
   slug: string;
   labels: { label: string; copied: string; error: string };
   /** 置かれる地色に合わせて反転させる */
-  tone?: "ink" | "paper";
+  tone?: "magenta" | "white";
   size?: "sm" | "lg";
   className?: string;
 };
@@ -67,7 +67,7 @@ export function CopyButton({
   text,
   slug,
   labels,
-  tone = "ink",
+  tone = "magenta",
   size = "lg",
   className = "",
 }: Props) {
@@ -114,18 +114,18 @@ export function CopyButton({
 
   const sizeClasses =
     size === "lg"
-      ? "w-full min-h-14 px-4 text-base sm:text-lg"
-      : "w-full min-h-12 px-3 text-sm";
+      ? "w-full min-h-14 px-5 text-base sm:text-lg"
+      : "w-full min-h-12 px-4 text-sm";
 
   const idleTone =
-    tone === "ink"
-      ? "bg-ink text-paper hover:bg-shock"
-      : "bg-paper-3 text-ink hover:bg-flare";
+    tone === "magenta"
+      ? "bg-magenta text-white hover:bg-purple"
+      : "bg-white text-purple hover:bg-sun";
 
   const toneClasses = isCopied
-    ? "bg-flare text-ink"
+    ? "bg-sun text-purple"
     : isError
-      ? "bg-shock text-paper-3"
+      ? "bg-flame text-white"
       : idleTone;
 
   return (
@@ -134,7 +134,7 @@ export function CopyButton({
       onClick={handleClick}
       data-copy-slug={slug}
       data-copy-state={state}
-      className={`group inline-flex items-center justify-between gap-3 border-2 border-ink font-black tracking-[0.02em] whitespace-nowrap transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${sizeClasses} ${toneClasses} ${className}`}
+      className={`group inline-flex items-center justify-between gap-3 rounded-full font-black whitespace-nowrap ring-[3px] ring-purple shadow-[4px_5px_0_0_var(--color-purple)] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[5px_7px_0_0_var(--color-purple)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple ${sizeClasses} ${toneClasses} ${className}`}
     >
       <span className="flex items-center gap-2">
         <CopyIcon state={state} />

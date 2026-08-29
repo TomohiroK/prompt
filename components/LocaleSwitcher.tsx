@@ -26,7 +26,7 @@ export function LocaleSwitcher({
     <details className="relative">
       <summary
         aria-label={label}
-        className="flex min-h-11 cursor-pointer list-none items-center gap-1.5 border-2 border-ink bg-flare px-2 text-[11px] font-black whitespace-nowrap transition-colors hover:bg-ink hover:text-flare sm:px-2.5 sm:text-xs [&::-webkit-details-marker]:hidden"
+        className="flex min-h-11 cursor-pointer list-none items-center gap-1.5 rounded-full bg-magenta px-2.5 text-[11px] font-black whitespace-nowrap text-white transition-colors hover:bg-purple sm:px-3 sm:text-xs [&::-webkit-details-marker]:hidden"
       >
         <svg
           aria-hidden="true"
@@ -43,14 +43,14 @@ export function LocaleSwitcher({
         <span className="hidden sm:inline">{localeNames[locale]}</span>
       </summary>
 
-      <ul className="absolute right-0 z-40 mt-1 w-40 border-2 border-ink bg-paper-3 shadow-[6px_6px_0_0_var(--color-ink)]">
+      <ul className="absolute right-0 z-40 mt-2 w-40 overflow-hidden rounded-2xl bg-white ring-[3px] ring-purple shadow-[5px_6px_0_0_var(--color-purple)]">
         {locales.map((target) => (
-          <li key={target} className="border-b border-ink/15 last:border-b-0">
+          <li key={target} className="border-b-2 border-pink-soft last:border-b-0">
             <Link
               href={hrefFor(target)}
               hrefLang={target}
-              className={`flex min-h-11 items-center px-4 text-sm font-bold transition-colors hover:bg-flare ${
-                target === locale ? "bg-ink text-flare" : "text-ink"
+              className={`flex min-h-11 items-center px-4 text-sm font-black transition-colors hover:bg-pink-soft ${
+                target === locale ? "bg-purple text-white" : "text-purple"
               }`}
             >
               {localeNames[target]}

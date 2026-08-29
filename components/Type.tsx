@@ -1,57 +1,202 @@
 import type { ReactNode } from "react";
 
 /**
- * 見出しの一行。文字をそのまま流し込まず、必ず版として組む。
- *
- * - misprint: 蛍光イエローの版を微妙にずらして刷り重ねる。読めるが、ただの文字ではなくなる
- * - blockFirst: 先頭の1文字だけ色面で反転させ、行の入口に視線の停留点を作る
- * - どの言語でも成立するよう、文字単位ではなく「先頭」「全体」という相対指定にしている
+ * 押し出し文字。
+ * 面・縁・影を3枚のレイヤーに分けて刷り重ねる。
+ * 縁と影のレイヤーにだけ太い text-stroke をかけ、面は輪郭を持たせないことで、
+ * 白い面がにじまずに残る。
  */
-export function DisplayLine({
+type Tone = "white" | "purple" | "magenta" | "sun";
+
+const tones: Record<Tone, { face: string; edge: string; drop: string }> = {
+  white: {
+    face: "#ffffff",
+    edge: "var(--color-magenta)",
+    drop: "var(--color-purple)",
+  },
+  purple: {
+    face: "var(--color-purple)",
+    edge: "#ffffff",
+    drop: "var(--color-magenta)",
+  },
+  magenta: {
+    face: "var(--color-magenta)",
+    edge: "#ffffff",
+    drop: "var(--color-purple)",
+  },
+  sun: {
+    face: "var(--color-sun)",
+    edge: "var(--color-purple)",
+    drop: "var(--color-magenta)",
+  },
+};
+
+/** 文字単位に少しだけ角度と高さを振り、機械的な行に見えないようにする */
+function Glyphs({ text, wave }: { text: string; wave: boolean }) {
+  if (!wave) return <>{text}</>;
+
+  return (
+    <>
+      {Array.from(text).map((char, index) =>
+        char === " " ? (
+          " "
+        ) : (
+          <span
+            key={index}
+            className="inline-block"
+            style={{
+              transform: `rotate(${((index % 3) - 1) * 1.7}deg) translateY(${
+                index % 2 === 0 ? -0.02 : 0.018
+              }em)`,
+            }}
+          >
+            {char}
+          </span>
+        ),
+      )}
+    </>
+  );
+}
+
+export function PopTitle({
   text,
-  misprint = false,
-  blockFirst = false,
-  blockColor = "bg-shock",
-  outlined = false,
+  tone = "white",
+  wave = true,
   className = "",
 }: {
   text: string;
-  misprint?: boolean;
-  blockFirst?: boolean;
-  blockColor?: string;
-  outlined?: boolean;
+  tone?: Tone;
+  wave?: boolean;
   className?: string;
 }) {
-  const chars = Array.from(text);
+  const { face, edge, drop } = tones[tone];
 
   return (
     <span className={`relative inline-block ${className}`}>
-      {misprint ? (
-        <span aria-hidden="true" className="misprint-layer">
-          {text}
-        </span>
-      ) : null}
-
-      <span className={`misprint-top ${outlined ? "outlined" : ""}`}>
-        {chars.map((char, index) =>
-          blockFirst && index === 0 ? (
-            <span key={index} className="relative inline-block px-[0.08em]">
-              <span
-                aria-hidden="true"
-                className={`absolute inset-x-0 -top-[0.04em] -bottom-[0.02em] ${blockColor}`}
-              />
-              <span className="relative text-paper">{char}</span>
-            </span>
-          ) : (
-            <span key={index}>{char}</span>
-          ),
-        )}
+      <span
+        aria-hidden="true"
+        className="pop-stroke absolute inset-0 translate-x-[0.055em] translate-y-[0.06em]"
+        style={{ color: drop }}
+      >
+        <Glyphs text={text} wave={wave} />
+      </span>
+      <span
+        aria-hidden="true"
+        className="pop-stroke absolute inset-0"
+        style={{ color: edge }}
+      >
+        <Glyphs text={text} wave={wave} />
+      </span>
+      <span className="relative" style={{ color: face }}>
+        <Glyphs text={text} wave={wave} />
       </span>
     </span>
   );
 }
 
-/** 縦組みの柱。CJKは正立、欧文は回転で流す */
+/** 小さめの押し出し文字。見出し以外の強調に使う */
+export function PopText({
+  text,
+  tone = "white",
+  className = "",
+}: {
+  text: string;
+  tone?: Tone;
+  className?: string;
+}) {
+  const { face, edge } = tones[tone];
+  return (
+    <span className={`relative inline-block ${className}`}>
+      <span
+        aria-hidden="true"
+        className="pop-stroke-sm absolute inset-0"
+        style={{ color: edge }}
+      >
+        {text}
+      </span>
+      <span className="relative" style={{ color: face }}>
+        {text}
+      </span>
+    </span>
+  );
+}
+
+/** 丸い札。欧文の小見出しや機能ラベルに使う */
+export function Kicker({
+  children,
+  tone = "magenta",
+  className = "",
+}: {
+  children: ReactNode;
+  tone?: "magenta" | "purple" | "white" | "sun";
+  className?: string;
+}) {
+  const styles = {
+    magenta: "bg-magenta text-white",
+    purple: "bg-purple text-white",
+    white: "bg-white text-purple",
+    sun: "bg-sun text-purple",
+  } as const;
+
+  return (
+    <span
+      className={`inline-flex items-center rounded-full px-3 py-1 text-[10px] font-black tracking-[0.2em] uppercase ${styles[tone]} ${className}`}
+    >
+      {children}
+    </span>
+  );
+}
+
+/** 章の見出し */
+export function SectionHead({
+  latin,
+  title,
+  className = "",
+}: {
+  latin: string;
+  title: string;
+  className?: string;
+}) {
+  return (
+    <div className={`text-center ${className}`}>
+      <Kicker tone="purple">{latin}</Kicker>
+      <h2 className="track-tight mt-3 text-3xl leading-[1.06] font-black sm:text-5xl">
+        <PopTitle text={title} tone="white" />
+      </h2>
+    </div>
+  );
+}
+
+/** メタ情報。カード内の小さな表として使う */
+export function MetaRow({
+  items,
+  className = "",
+}: {
+  items: { label: string; value: string }[];
+  className?: string;
+}) {
+  return (
+    <dl
+      className={`grid grid-cols-3 overflow-hidden rounded-xl bg-pink-soft ${className}`}
+    >
+      {items.map((item, index) => (
+        <div
+          key={item.label}
+          className={`px-2 py-2 text-center ${index > 0 ? "border-l-2 border-white" : ""}`}
+        >
+          <dt className="text-[9px] font-black tracking-[0.12em] text-magenta uppercase">
+            {item.label}
+          </dt>
+          <dd className="mt-0.5 text-xs font-black text-purple">
+            {item.value}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+/** 縦組みの柱 */
 export function Rail({
   text,
   latin = false,
@@ -62,94 +207,8 @@ export function Rail({
   className?: string;
 }) {
   return (
-    <span
-      className={`${latin ? "tate-latin" : "tate"} select-none ${className}`}
-    >
+    <span className={`${latin ? "tate-latin" : "tate"} select-none ${className}`}>
       {text}
     </span>
-  );
-}
-
-/** 小さな欧文の見出し札。字間を広く取り、記号として置く */
-export function Kicker({
-  children,
-  tone = "ink",
-  className = "",
-}: {
-  children: ReactNode;
-  tone?: "ink" | "flare" | "paper";
-  className?: string;
-}) {
-  const tones = {
-    ink: "bg-ink text-paper",
-    flare: "bg-flare text-ink",
-    paper: "bg-paper-3 text-ink",
-  } as const;
-
-  return (
-    <span
-      className={`inline-flex items-center px-2.5 py-1 text-[10px] font-black tracking-[0.28em] uppercase ${tones[tone]} ${className}`}
-    >
-      {children}
-    </span>
-  );
-}
-
-/** 章の見出し。巨大なアウトライン数字と罫線で誌面の構造を作る */
-export function SectionHead({
-  index,
-  latin,
-  title,
-  className = "",
-}: {
-  index: string;
-  latin: string;
-  title: string;
-  className?: string;
-}) {
-  return (
-    <div className={`border-t-2 border-ink pt-3 ${className}`}>
-      <div className="flex items-start gap-3 sm:gap-5">
-        <span
-          aria-hidden="true"
-          className="outlined shrink-0 text-4xl leading-none font-black italic sm:text-6xl"
-        >
-          {index}
-        </span>
-        <div className="min-w-0 flex-1 pt-1">
-          <span className="block text-[10px] font-black tracking-[0.3em] text-ink-2 uppercase">
-            {latin}
-          </span>
-          <h2 className="track-tight mt-1 text-2xl leading-[1.05] font-black sm:text-4xl">
-            {title}
-          </h2>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/** 罫線つきの小見出し。メタ情報を誌面のキャプションとして扱う */
-export function MetaRow({
-  items,
-  className = "",
-}: {
-  items: { label: string; value: string }[];
-  className?: string;
-}) {
-  return (
-    <dl className={`grid grid-cols-3 border-y border-current/25 ${className}`}>
-      {items.map((item, index) => (
-        <div
-          key={item.label}
-          className={`px-2 py-2 ${index > 0 ? "border-l border-current/25" : ""}`}
-        >
-          <dt className="text-[9px] font-black tracking-[0.18em] uppercase opacity-60">
-            {item.label}
-          </dt>
-          <dd className="mt-0.5 text-xs font-bold">{item.value}</dd>
-        </div>
-      ))}
-    </dl>
   );
 }

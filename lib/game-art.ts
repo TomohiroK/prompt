@@ -1,54 +1,54 @@
 /**
  * ゲームごとの版面設計。
- * 色は「紙・墨・蛍光」の共通パレットから、1本ずつ別の組み合わせを割り当てる。
- * 一覧を並べたときに、色そのものが索引として機能することを狙っている。
+ * どれも明るい高彩度の面にし、暗い地色は使わない。
+ * 一覧を並べたときに、色そのものが索引として働くよう1本ずつ変えている。
  */
 export type GameArt = {
-  /** カードの地色 */
+  /** 表紙の地色 */
   ground: string;
   /** 地色の上に乗る文字色 */
   onGround: string;
-  /** 差し色（丸・帯・記号に使う） */
+  /** 差し色（記号・星・帯） */
   accent: string;
-  /** 通し番号。誌面の索引として大きく出す */
+  /** 通し番号 */
   index: string;
 };
 
 export const gameArt: Record<string, GameArt> = {
   "number-guess": {
-    ground: "var(--color-flare)",
-    onGround: "var(--color-ink)",
-    accent: "var(--color-shock)",
+    ground: "var(--color-magenta)",
+    onGround: "#ffffff",
+    accent: "var(--color-sun)",
     index: "01",
   },
   whodunit: {
-    ground: "var(--color-shock)",
-    onGround: "var(--color-paper-3)",
-    accent: "var(--color-flare)",
+    ground: "var(--color-purple-2)",
+    onGround: "#ffffff",
+    accent: "var(--color-mint)",
     index: "02",
   },
   "word-wolf": {
-    ground: "var(--color-ink)",
-    onGround: "var(--color-paper-3)",
-    accent: "var(--color-flare)",
+    ground: "var(--color-violet)",
+    onGround: "#ffffff",
+    accent: "var(--color-sun)",
     index: "03",
   },
   "escape-room": {
-    ground: "var(--color-aqua)",
-    onGround: "var(--color-ink)",
-    accent: "var(--color-paper-3)",
+    ground: "var(--color-mint)",
+    onGround: "var(--color-purple)",
+    accent: "var(--color-magenta)",
     index: "04",
   },
   negotiation: {
-    ground: "var(--color-ultra)",
-    onGround: "var(--color-paper-3)",
-    accent: "var(--color-flare)",
+    ground: "var(--color-sun)",
+    onGround: "var(--color-purple)",
+    accent: "var(--color-magenta)",
     index: "05",
   },
   "twenty-questions": {
-    ground: "var(--color-paper-2)",
-    onGround: "var(--color-ink)",
-    accent: "var(--color-ultra)",
+    ground: "var(--color-pink)",
+    onGround: "#ffffff",
+    accent: "var(--color-purple)",
     index: "06",
   },
 };
@@ -56,9 +56,9 @@ export const gameArt: Record<string, GameArt> = {
 export function getGameArt(slug: string): GameArt {
   return (
     gameArt[slug] ?? {
-      ground: "var(--color-paper-2)",
-      onGround: "var(--color-ink)",
-      accent: "var(--color-shock)",
+      ground: "var(--color-violet)",
+      onGround: "#ffffff",
+      accent: "var(--color-sun)",
       index: "00",
     }
   );

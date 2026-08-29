@@ -1,11 +1,24 @@
 import { notFound } from "next/navigation";
 import { games } from "@/content/games";
 import { ui } from "@/content/ui";
-import { editorial, latinLabels } from "@/content/editorial";
+import { editorial, latinLabels, poster } from "@/content/editorial";
 import { GameCard } from "@/components/GameCard";
-import { Mascot } from "@/components/art/Mascot";
-import { Burst, RegistrationMark, Ticker } from "@/components/art/Decor";
-import { DisplayLine, Kicker, Rail, SectionHead } from "@/components/Type";
+import { HeroFigure } from "@/components/art/HeroFigure";
+import { Plush } from "@/components/art/Plush";
+import { WindowMock } from "@/components/art/WindowMock";
+import {
+  Bolt,
+  Bubble,
+  Confetti,
+  Cursor,
+  Halftone,
+  Rays,
+  Star,
+  Sticker,
+  Ticker,
+  BurstShape,
+} from "@/components/art/Decor";
+import { Kicker, PopTitle, Rail, SectionHead } from "@/components/Type";
 import { site } from "@/lib/site";
 import { format, isLocale, locales } from "@/lib/i18n";
 
@@ -27,6 +40,7 @@ export default async function HomePage({ params }: PageProps) {
 
   const strings = ui[locale];
   const edit = editorial[locale];
+  const pop = poster[locale];
   const isCjk = locale === "ja" || locale === "zh" || locale === "ko";
 
   const jsonLd = {
@@ -47,128 +61,164 @@ export default async function HomePage({ params }: PageProps) {
       />
 
       {/* ============ キービジュアル ============ */}
-      {/*
-        版面は上下2段。
-        上段は紙の余白と文字だけに絞り、下段の色面に人物を立たせる。
-        1段目で読ませ、2段目で目を留める。スマホの第一画面に
-        「見出し・人物・CTA」の3つが必ず同時に入るよう高さを設計している。
-      */}
-      <section className="relative border-b-2 border-ink">
-        {/* ---- 柱：刊行情報 ---- */}
-        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 pt-4 sm:px-6 sm:pt-6 lg:px-[max(1.5rem,calc((100vw-72rem)/2))]">
-          <Kicker tone="ink">{latinLabels.issue}</Kicker>
-          <span className="h-px flex-1 bg-ink" />
-          <span className="text-[10px] font-black tracking-[0.24em] whitespace-nowrap">
-            {games.length} GAMES
-          </span>
-        </div>
+      <section className="relative overflow-hidden pb-10 sm:pb-14">
+        <Rays />
+        <Confetti />
+        <Halftone className="top-0 right-0 h-64 w-64 opacity-60 sm:h-96 sm:w-96" />
 
-        <div className="lg:grid lg:grid-cols-[1fr_44%] lg:items-stretch">
-          {/* ---- 上段：文字の版 ---- */}
-          <div className="grain relative px-4 pt-5 pb-6 sm:px-6 sm:pt-8 lg:pt-12 lg:pr-12 lg:pb-12 lg:pl-[max(1.5rem,calc((100vw-72rem)/2))]">
-            <RegistrationMark className="absolute top-2 right-4 size-5 text-ink/30 sm:size-6 lg:right-12" />
+        <div className="relative mx-auto max-w-6xl px-4 pt-6 sm:px-6 sm:pt-10">
+          {/* ---- 見出しと人物 ---- */}
+          <div className="relative grid gap-4 lg:grid-cols-[1.12fr_0.88fr] lg:items-end lg:gap-6">
+            <div className="relative z-10 min-w-0">
+              <Sticker className="mb-3">{pop.tag}</Sticker>
 
-            <h1 className="track-tight balance text-[9.2vw] leading-[0.96] font-black sm:text-[7.4vw] lg:text-[3.3rem] xl:text-[3.9rem]">
-              <DisplayLine text={strings.hero.title1} />
-              <br />
-              <DisplayLine text={strings.hero.title2} misprint blockFirst />
-            </h1>
+              <h1 className="track-tight text-[14.5vw] leading-[0.9] font-black sm:text-[10vw] lg:text-[5.6rem] xl:text-[6.8rem]">
+                <PopTitle text={strings.hero.title1} tone="white" />
+                <br />
+                <PopTitle text={strings.hero.title2} tone="purple" />
+              </h1>
 
-            <p className="mt-5 max-w-md border-l-4 border-shock pl-3 text-[13px] leading-relaxed text-ink-2 sm:pl-4 sm:text-sm">
-              {strings.hero.lead}
-            </p>
+              <p className="mt-4 inline-block rounded-xl bg-white px-3 py-2 text-[12px] leading-relaxed font-black text-magenta ring-[3px] ring-purple sm:px-4 sm:text-sm">
+                {pop.sub}
+              </p>
+            </div>
 
-            <a
-              href="#how-to-use"
-              className="mt-5 inline-flex min-h-12 items-center justify-center border-2 border-ink px-5 text-sm font-black whitespace-nowrap transition-colors hover:bg-flare focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:text-base"
-            >
-              {strings.hero.ctaHowTo}
-            </a>
+            {/* ---- 人物と機能ラベル ---- */}
+            <div className="relative h-[270px] overflow-hidden sm:h-[360px] lg:h-[430px]">
+              <div className="absolute top-0 right-0 z-20 flex flex-col items-end gap-1.5">
+                <span className="text-[11px] font-black tracking-[0.3em] text-purple sm:text-sm">
+                  WEB APP
+                </span>
+                {latinLabels.features.map((feature) => (
+                  <span
+                    key={feature}
+                    className="rounded-full bg-white/85 px-3 py-1 text-[9px] font-black tracking-[0.12em] text-purple sm:text-[10px]"
+                  >
+                    {feature}
+                  </span>
+                ))}
+              </div>
+
+              <HeroFigure className="absolute -bottom-8 left-1/2 z-10 h-[126%] -translate-x-[58%] sm:-bottom-10 sm:-translate-x-[62%] lg:left-2 lg:translate-x-0" />
+
+              <Bubble className="absolute bottom-3 left-0 z-20 max-w-[10.5rem] text-[11px] leading-snug font-black ring-[3px] ring-purple sm:bottom-6 sm:max-w-[13rem] sm:text-sm">
+                {pop.heart}
+              </Bubble>
+
+              <Bolt className="absolute top-4 left-1 z-0 h-10 text-sun sm:h-14" />
+            </div>
           </div>
 
-          {/* ---- 下段：人物の版 ---- */}
-          <div className="grain relative h-[52vh] max-h-[420px] min-h-[300px] overflow-hidden border-t-2 border-ink bg-aqua sm:h-[440px] sm:max-h-none lg:h-auto lg:border-t-0 lg:border-l-2">
-            {/* 天地を断ち切る色面 */}
-            <div
-              aria-hidden="true"
-              className="deco absolute -top-1 -left-10 h-4 w-64 -rotate-6 bg-shock sm:h-5 sm:w-96"
-            />
-            <div
-              aria-hidden="true"
-              className="deco absolute -right-16 bottom-8 size-[240px] rounded-full bg-flare sm:size-[340px]"
+          {/* ---- 画面モック ---- */}
+          <div className="relative mt-6 sm:mt-8">
+            <WindowMock
+              locale={locale}
+              templates={games.slice(0, 4).map((game) => game.content[locale].title)}
             />
 
-            {/* 画面端で断ち切る巨大な欧文。人物の背後を横切らせる */}
-            <span
-              aria-hidden="true"
-              className="outlined tighten deco absolute top-8 -left-4 z-0 text-[4.4rem] leading-none font-black italic sm:top-14 sm:text-[7rem]"
-            >
-              PLAY
-            </span>
+            <Plush className="bob absolute -top-10 -right-2 z-20 w-24 sm:-top-16 sm:-right-4 sm:w-36 lg:-top-24 lg:w-40" />
 
-            <Mascot className="absolute bottom-0 left-1/2 z-10 h-[88%] -translate-x-[34%] sm:h-[90%] sm:-translate-x-[28%] lg:left-auto lg:right-0 lg:translate-x-[4%]" />
+            <Cursor className="absolute -bottom-4 left-8 z-20 h-8 sm:h-10" />
+            <Sticker className="absolute -bottom-4 right-6 z-20 sm:right-12">
+              COPY &amp; PASTE!
+            </Sticker>
+          </div>
 
-            {/* 縦組みの柱。人物の肩口に重ねて、文字と人物を同じ面に置く */}
-            <Rail
-              text={edit.rail}
-              latin={!isCjk}
-              className="track-tight absolute top-4 right-3 z-20 bg-ink px-1.5 py-2 text-xs font-black text-flare sm:top-6 sm:text-sm"
-            />
-
-            <Burst className="absolute top-6 left-4 z-20 size-8 text-paper-3 sm:size-11" />
-
-            {/* 第一画面のうちに主CTAを置く */}
+          {/* ---- 行動 ---- */}
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-4 sm:mt-12 sm:gap-6">
             <a
               href="#games"
-              className="absolute bottom-4 left-4 z-20 inline-flex min-h-14 items-center justify-between gap-3 border-2 border-ink bg-ink px-4 text-sm font-black whitespace-nowrap text-paper shadow-[5px_5px_0_0_var(--color-paper-3)] transition-colors hover:bg-shock focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:px-5 sm:text-base"
+              className="rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple"
+            >
+              {/* 爆発形の札は円の中に2行で組むのが正しい形。
+                  ピル型ボタンの折り返し検査からは除外する */}
+              <BurstShape
+                className="size-32 bg-sun text-purple transition-transform duration-150 hover:scale-105 sm:size-40"
+                data-wrap="ok"
+              >
+                <span className="px-4 text-sm leading-tight font-black sm:text-base">
+                  {pop.ctaBurst}
+                  <span aria-hidden="true" className="mt-1 block text-lg">
+                    →
+                  </span>
+                </span>
+              </BurstShape>
+            </a>
+
+            <a
+              href="#games"
+              className="inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-magenta px-6 text-base font-black whitespace-nowrap text-white ring-[3px] ring-purple shadow-[5px_6px_0_0_var(--color-purple)] transition-all hover:-translate-y-0.5 hover:bg-purple focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-purple sm:text-lg"
             >
               {format(strings.hero.ctaGames, { count: games.length })}
               <span aria-hidden="true">→</span>
             </a>
           </div>
+
+          {/* ---- ロゴ・ロックアップ ---- */}
+          <div className="mt-10 text-center sm:mt-14">
+            <p className="text-[10px] font-black tracking-[0.4em] text-purple sm:text-xs">
+              {site.nameJa}
+            </p>
+            <p className="track-tight mt-1 text-[11vw] leading-none font-black sm:text-6xl lg:text-7xl">
+              <PopTitle text={site.name.toUpperCase()} tone="white" wave={false} />
+            </p>
+            <p className="mt-3 text-[11px] font-black tracking-[0.3em] text-purple sm:text-base">
+              {latinLabels.tagline}
+            </p>
+
+            <ul className="mt-5 flex flex-wrap items-center justify-center gap-2">
+              {pop.features.map((feature) => (
+                <li
+                  key={feature}
+                  className="rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-black text-purple ring-2 ring-purple sm:text-xs"
+                >
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        <Ticker
-          text={latinLabels.ticker}
-          className="border-t-2 border-ink bg-ink py-2 text-flare"
+        {/* 縦組みの柱 */}
+        <Rail
+          text={edit.rail}
+          latin={!isCjk}
+          className="absolute top-40 right-1 z-20 hidden rounded-full bg-purple px-1.5 py-3 text-xs font-black text-white lg:block"
         />
+
       </section>
+
+      <Ticker text={latinLabels.ticker} className="bg-purple py-2 text-white" />
 
       {/* ============ 使い方 ============ */}
       <section
         id="how-to-use"
         aria-labelledby="how-to-use-heading"
-        className="mx-auto max-w-6xl scroll-mt-20 px-4 pt-12 sm:px-6 sm:pt-16"
+        className="relative mx-auto max-w-6xl scroll-mt-20 px-4 pt-12 sm:px-6 sm:pt-16"
       >
-        <SectionHead
-          index="A"
-          latin={latinLabels.howTo}
-          title={strings.howToUse.heading}
-        />
+        <SectionHead latin={latinLabels.howTo} title={strings.howToUse.heading} />
 
-        <ol className="mt-8 grid gap-px border-2 border-ink bg-ink sm:grid-cols-3">
+        <ol className="mt-8 grid gap-4 sm:grid-cols-3">
           {strings.howToUse.steps.map((step, index) => (
-            <li key={step.title} className="grain relative bg-paper-3 p-5">
-              <span
-                aria-hidden="true"
-                className="absolute top-2 right-3 text-5xl leading-none font-black italic text-ink/10"
-              >
+            <li
+              key={step.title}
+              className="card-pop-sm relative rounded-3xl bg-white p-5"
+            >
+              <Star className="absolute -top-3 -right-2 size-7 text-sun" />
+              <span className="grid size-9 place-items-center rounded-full bg-magenta text-sm font-black text-white">
                 {index + 1}
               </span>
-              <span className="inline-flex size-7 items-center justify-center bg-ink text-xs font-black text-flare">
-                {index + 1}
-              </span>
-              <h3 className="track-tight mt-3 text-lg font-black">
+              <h3 className="track-tight mt-3 text-lg font-black text-purple">
                 {step.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-2">
+              <p className="mt-2 text-sm leading-relaxed font-bold text-ink-2">
                 {step.body}
               </p>
             </li>
           ))}
         </ol>
 
-        <p className="mt-4 max-w-2xl border-l-4 border-shock pl-3 text-xs leading-relaxed text-ink-2">
+        <p className="mx-auto mt-5 max-w-2xl rounded-2xl bg-white/70 px-4 py-3 text-center text-xs leading-relaxed font-bold text-purple">
           {strings.howToUse.note}
         </p>
       </section>
@@ -177,19 +227,18 @@ export default async function HomePage({ params }: PageProps) {
       <section
         id="games"
         aria-labelledby="games-heading"
-        className="mx-auto max-w-6xl scroll-mt-20 px-4 pt-14 sm:px-6 sm:pt-20"
+        className="relative mx-auto max-w-6xl scroll-mt-20 px-4 pt-14 sm:px-6 sm:pt-20"
       >
         <SectionHead
-          index="B"
           latin={latinLabels.games}
           title={strings.gamesSection.heading}
         />
 
-        <p className="track-tight mt-5 text-xl font-black text-shock sm:text-2xl">
-          {edit.pickLine}
+        <p className="mt-4 text-center">
+          <Kicker tone="sun">{edit.pickLine}</Kicker>
         </p>
 
-        <div className="mt-7 grid gap-5 sm:grid-cols-2 sm:gap-6">
+        <div className="mt-8 grid gap-6 sm:grid-cols-2">
           {games.map((game) => (
             <GameCard key={game.slug} game={game} locale={locale} />
           ))}
