@@ -1,0 +1,97 @@
+# Prompt Arcade — Detailed version
+
+URL: https://prompt-arcade.vercel.app
+Summary version: /llms-en.txt
+Japanese version: /llms-full.txt
+
+## Overview
+Prompt Arcade collects prompts that turn a general AI chat assistant into a
+playable game. No install, login, or API key is needed. Every game page exposes
+the full prompt with a one-click copy button, and the layout is mobile-first so
+it works on a phone as well as a desktop browser.
+
+## Languages
+Languages: Japanese, English, Korean, Chinese, Spanish, Portuguese (the prompts themselves are translated too)
+Locales are ja, en, ko, zh, es, pt, and URLs follow /{locale}/...
+A URL without a locale prefix is routed from the browser's Accept-Language
+header, falling back to English when no supported language matches.
+Every page carries hreflang links to all six versions.
+
+## Site structure
+- /{locale} (home): introduction, three-step usage guide, card list of every game with inline copy buttons
+- /{locale}/games/{slug} (game detail): description, full prompt with copy button, how to play, strategy tips
+- /llms.txt, /llms-full.txt, /llms-en.txt, /llms-full-en.txt: information for AI agents
+- /robots.txt, /sitemap.xml (6 locales x 7 pages = 42 URLs)
+
+## Games
+
+### Number Guessing (/{locale}/games/number-guess)
+Category: deduction / Difficulty: hard / About 20-40 min / 1 player
+The AI acts as game master for two NPCs, each holding a secret number that must
+satisfy: at least 100, below 100,000,000, divisible by 100, and containing at
+most two non-zero digits in total. The player asks each NPC up to five questions
+(ten in total). Both mathematical questions and subjective questions about the
+size of the amount are allowed, and the hesitation in the AI's phrasing is an
+intentional, legitimate hint.
+
+### Whodunit (/{locale}/games/whodunit)
+Category: deduction / Difficulty: normal / About 15-30 min / 1 player
+The AI generates a minor crime and three suspects. The two innocent suspects
+always tell the truth; only the culprit lies, and only about facts that
+incriminate them. The player may ask each suspect up to three questions (nine in
+total). The case is required to be solvable purely by cross-checking times and
+locations.
+
+### Word Wolf, solo edition (/{locale}/games/word-wolf)
+Category: hidden role / Difficulty: normal / About 10-20 min / 1 player
+A social deduction game adapted for solo play: the AI performs four characters
+at once. Three share a secret word and one holds a different one. Across three
+rounds of conversation the player may question one character per round, then
+names the odd one out.
+
+### Escape Room (/{locale}/games/escape-room)
+Category: adventure / Difficulty: normal / About 20-40 min / 1 player
+A text adventure. The AI fixes the room design (objects, items, lock mechanism,
+solution path) up front and must not alter it mid-game. The player has 30 turns.
+Every obtainable item must be used somewhere in the solution, so no red herrings
+are introduced.
+
+### Haggle (/{locale}/games/negotiation)
+Category: simulation / Difficulty: normal / About 10-20 min / 1 player
+The AI plays a merchant holding a hidden reserve price set between 55% and 75%
+of the opening price. The player negotiates for ten turns. Repeatedly demanding
+far below the reserve breaks off the deal. At the end the reserve price is
+revealed and the discount achieved is scored out of 100.
+
+### 20 Questions (/{locale}/games/twenty-questions)
+Category: deduction / Difficulty: easy / About 5-10 min / 1 player
+The AI picks a common noun and answers up to twenty yes/no questions, displaying
+the remaining question count after every reply. The lightest entry point on the
+site.
+
+## Shared prompt-design principles
+Each published prompt explicitly encodes the following:
+1. Fix the hidden information (answer, secret word, culprit, reserve price) at
+   the start and forbid changing it afterwards.
+2. Report the remaining turns or questions in every reply.
+3. Never refuse an ambiguous question with "please be more specific"; answer in
+   character instead.
+4. Never invent the solution after seeing the player's final guess.
+5. Reveal the answer at the end with a short debrief of what worked.
+These rules exist to stop the model from retroactively rationalising its earlier
+answers, which is the most common failure mode for conversational games.
+
+## FAQ
+Q. Which assistants work?
+A. Any chat assistant that accepts a long prompt, such as ChatGPT, Claude, or Gemini.
+
+Q. Is an account required?
+A. Not for this site. The terms of the AI service you paste into still apply.
+
+Q. The AI forgets the rules mid-game.
+A. Replying "follow the rules from the original instructions" usually restores it.
+
+Q. May I modify the prompts?
+A. Yes. They are written to be edited, for example to change the turn limit.
+
+Last updated: 2026-08-29

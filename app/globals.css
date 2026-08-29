@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0b0d14;
+  --color-surface: #141824;
+  --color-surface-2: #1b2030;
+  --color-line: #262d40;
+  --color-ink: #e9ebf4;
+  --color-muted: #99a1ba;
+  --color-accent: #7c6cff;
+  --color-accent-2: #34d8e4;
+
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  /* iOS Safari で横スクロールが出ないようにする */
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+}
+
+/* 画面外の装飾グラデーション（クリックを奪わないよう pointer-events は無効） */
+.glow {
+  pointer-events: none;
+}
+
+/* プロンプト本文。長文でも崩れないように折り返しを明示する */
+.prompt-body {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
