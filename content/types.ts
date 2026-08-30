@@ -67,7 +67,17 @@ export const difficultyLabels: Record<Locale, Record<Difficulty, string>> = {
 
 /** 1言語分のゲーム情報 */
 export type GameContent = {
+  /** 画面の見出しに出す名前 */
   title: string;
+  /**
+   * 検索結果に出すタイトル。省略時は title を使う。
+   *
+   * ゲーム名が、その言語では別のものを指してしまう場合にだけ書く。
+   * 例: 日本語の「数字当てゲーム」はヒット&ブロー／ヌメロンの語で、
+   * このゲームの中身とは別物。上位に来ても検索者の期待と食い違う。
+   * 名前を変えずに、検索向けの見出しだけ実態に寄せる。
+   */
+  seoTitle?: string;
   /** カード等に出す1行キャッチ */
   tagline: string;
   /** 2〜3文の紹介 */

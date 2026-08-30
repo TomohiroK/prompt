@@ -8,6 +8,7 @@ export const numberGuess: Game = {
   content: {
     ja: {
       title: "数字当てゲーム",
+      seoTitle: "AIに10問質問して金額を当てる推理ゲーム｜ChatGPTプロンプト",
       tagline: "2人のNPCに10問だけ質問して、隠された金額を暴け。",
       description:
         "AIがゲームマスターとなり、Aさん・Bさん2人分の秘密の数字を設定します。プレイヤーは各人に最大5問ずつ質問し、その答えから数字を特定します。「3で割り切れますか？」のような数学的な質問だけでなく、「家を買えますか？」といった主観的な質問も有効で、AIの答え方のニュアンス自体がヒントになります。",
@@ -161,6 +162,7 @@ A・Bともに5問終了したら、
 
     en: {
       title: "Number Guessing",
+      seoTitle: "Number Deduction Game Prompt for ChatGPT — 10 Questions",
       tagline: "Ten questions, two characters, two hidden amounts.",
       description:
         "The AI plays game master for two people, A and B, each holding a secret number. You get five questions each and must deduce both numbers. Mathematical questions work, but so do subjective ones like \"Could you buy a house with it?\" — and the hesitation in the answer is itself a legitimate clue.",

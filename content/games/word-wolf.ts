@@ -8,6 +8,7 @@ export const wordWolf: Game = {
   content: {
     ja: {
       title: "ワードウルフ（1人用）",
+      seoTitle: "ワードウルフ 一人用｜AIが4人を演じるソロ人狼プロンプト",
       tagline: "4人のうち1人だけお題が違う。会話のズレから、少数派を探し出せ。",
       description:
         "本来は複数人で遊ぶ正体隠匿ゲームを、AIが4人のキャラクターを同時に演じることで1人でも遊べるようにしたものです。3人は同じお題、1人だけ違うお題を持っています。3ラウンドの会話を観察し、微妙に噛み合わない発言をしている「ウルフ」を指名します。",
@@ -97,6 +98,7 @@ export const wordWolf: Game = {
 
     en: {
       title: "Word Wolf (solo)",
+      seoTitle: "Word Wolf Solo — Social Deduction Prompt for ChatGPT",
       tagline: "Four speakers, one different word. Find the odd one out.",
       description:
         "A social deduction game adapted for one player: the AI performs all four characters at once. Three of them share a secret word and one holds a different one. You watch three rounds of conversation and name the character whose remarks quietly fail to line up.",
@@ -273,6 +275,7 @@ Now set up the characters and the words, and begin with round 1.`,
 
     zh: {
       title: "谁是卧底（单人版）",
+      seoTitle: "谁是卧底 单人版 — ChatGPT 身份隐藏游戏提示词",
       tagline: "四人之中只有一人拿到不同的词。从对话的错位里找出少数派。",
       description:
         "原本需要多人参与的身份隐藏游戏，由 AI 同时扮演四个角色，让一个人也能玩。三人共享同一个词，只有一人拿到不同的词。观察三轮对话，指出那位发言微妙对不上的「卧底」。",

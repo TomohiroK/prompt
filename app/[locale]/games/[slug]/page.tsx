@@ -8,6 +8,7 @@ import { CategoryBadge, DifficultyBadge } from "@/components/Badge";
 import { PromptPanel } from "@/components/PromptPanel";
 import { MetaRow } from "@/components/Type";
 import { getGameAccent } from "@/lib/game-art";
+import { buildMetaDescription } from "@/lib/meta";
 import { site } from "@/lib/site";
 import { isLocale, locales, localeTags, ogLocales } from "@/lib/i18n";
 
@@ -30,18 +31,32 @@ export async function generateMetadata({
   }
 
   const content = game.content[locale];
-  const description = `${content.tagline} ${content.description}`.slice(0, 150);
+  const description = buildMetaDescription([content.tagline, content.description]);
 
   /**
    * ページ側で openGraph / twitter を返すと、レイアウトの指定は継承されず
    * 丸ごと置き換わる。画像もここで指定しないと共有時に画像なしになる。
    */
   const ogImage = `/og/${locale}.png`;
-  /** 検索結果のタイトルと、共有カードのタイトルを揃える */
-  const sharedTitle = ui[locale].seo.titleTemplate.replace("%s", content.title);
+  /**
+   * 検索と共有で見出しを揃える。
+   * seoTitle があればそれを使う。ゲーム名が、その言語では別のものを
+   * 指してしまう場合にだけ持たせている（content/types.ts を参照）。
+   * 画面の見出し（h1）は content.title のままで、名前は変えない。
+   */
+  const metaTitle = content.seoTitle ?? content.title;
+  /**
+   * seoTitle は検索語を自分で持っているので、レイアウトのテンプレートは重ねない
+   * （重ねると同じ語が二度出て、表示上限を超える）。
+   * ゲーム名のままの場合だけテンプレートで補う。
+   */
+  const sharedTitle = content.seoTitle
+    ? content.seoTitle
+    : ui[locale].seo.titleTemplate.replace("%s", content.title);
 
   return {
-    title: content.title,
+    // absolute にするとレイアウトの template を適用しない
+    title: content.seoTitle ? { absolute: content.seoTitle } : metaTitle,
     description,
     alternates: {
       canonical: `/${locale}/games/${game.slug}`,

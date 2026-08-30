@@ -8,6 +8,7 @@ export const escapeRoom: Game = {
   content: {
     ja: {
       title: "密室脱出",
+      seoTitle: "密室脱出｜ChatGPTで遊ぶテキストアドベンチャー",
       tagline: "30ターン以内に、閉じ込められた部屋から抜け出せ。",
       description:
         "テキストアドベンチャー形式の脱出ゲームです。AIが一貫した部屋の設計図を内部で保持し、プレイヤーの「調べる」「使う」「開ける」といった行動に応答します。ターン制限があるため、無駄な調査を減らして手がかりを組み立てる必要があります。ご都合主義でアイテムが増えないよう、設計を固定するルールを組み込んであります。",
@@ -93,6 +94,7 @@ export const escapeRoom: Game = {
 
     en: {
       title: "Escape Room",
+      seoTitle: "Escape Room — Text Adventure Prompt for ChatGPT",
       tagline: "Thirty turns to get out of a locked room.",
       description:
         "A text adventure escape game. The AI holds a fixed floor plan internally and responds to your actions: examine, use, open. The turn limit means you cannot afford aimless searching. Explicit rules stop the AI from conjuring convenient new items when you get stuck.",
