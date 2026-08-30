@@ -6,6 +6,10 @@ import type { Locale } from "@/lib/i18n";
 export const latinLabels = {
   howTo: "HOW TO USE",
   games: "GAMES",
+  steps: "STEPS",
+  recovery: "WHEN IT DRIFTS",
+  design: "HOW THESE PROMPTS ARE WRITTEN",
+  faq: "FAQ",
 } as const;
 
 /**

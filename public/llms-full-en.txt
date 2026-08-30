@@ -18,9 +18,10 @@ Every page carries hreflang links to all six versions.
 
 ## Site structure
 - /{locale} (home): introduction, three-step usage guide, card list of every game with inline copy buttons
+- /{locale}/how-to-play: the three steps, recovering when the AI forgets the rules, what the prompts have in common, FAQ
 - /{locale}/games/{slug} (game detail): description, full prompt with copy button, how to play, strategy tips
 - /llms.txt, /llms-full.txt, /llms-en.txt, /llms-full-en.txt: information for AI agents
-- /robots.txt, /sitemap.xml (6 locales x 8 pages = 48 URLs)
+- /robots.txt, /sitemap.xml (6 locales x 9 pages = 54 URLs)
 
 ## Games
 
@@ -79,16 +80,24 @@ the remaining question count after every reply. The lightest entry point on the
 site.
 
 ## Shared prompt-design principles
-Each published prompt explicitly encodes the following:
-1. Fix the hidden information (answer, secret word, culprit, reserve price) at
-   the start and forbid changing it afterwards.
-2. Report the remaining turns or questions in every reply.
-3. Never refuse an ambiguous question with "please be more specific"; answer in
-   character instead.
-4. Never invent the solution after seeing the player's final guess.
-5. Reveal the answer at the end with a short debrief of what worked.
+
+Verified present in all seven prompts:
+1. A list of prohibitions - what the AI must not do, written out explicitly.
+2. The hidden information (answer, secret word, culprit, reserve price) is fixed
+   before play begins and may not change. Inventing it after seeing the player's
+   guess is forbidden too.
+3. The answer is revealed at the end.
+
+Present in some but not all:
+- Reporting the remaining turns or questions every reply (Word Wolf is
+  round-based and phrases this differently).
+- Refusing to dodge an ambiguous question (absent from Escape Room, Haggle and
+  Word Wolf).
+- A short debrief of what worked.
+
 These rules exist to stop the model from retroactively rationalising its earlier
-answers, which is the most common failure mode for conversational games.
+answers, the most common failure mode for conversational games. They are
+instructions, not guarantees: a model holds nothing but the conversation itself.
 
 ## FAQ
 Q. Which assistants work?

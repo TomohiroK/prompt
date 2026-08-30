@@ -25,7 +25,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
             {strings.nav.games}
           </a>
           <a
-            href={`/${locale}#how-to-use`}
+            href={`/${locale}/how-to-play`}
             className="hidden min-h-11 items-center rounded-lg px-2.5 whitespace-nowrap transition-colors hover:text-magenta sm:flex"
           >
             {strings.nav.howToUse}

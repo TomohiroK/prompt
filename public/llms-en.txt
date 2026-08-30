@@ -28,6 +28,9 @@ Accept-Language header, falling back to English when no supported language match
 - Haggle (/games/negotiation) - Negotiate for 10 turns against a merchant with a hidden reserve price. Difficulty: normal
 - 20 Questions (/games/twenty-questions) - Identify the AI's secret object within 20 yes/no questions. Difficulty: easy
 
+## How-to page
+/{locale}/how-to-play - the three steps, how to bring the AI back when it forgets the rules, what every prompt here has in common, and an FAQ
+
 ## How to use
 1. Open a game page and press the copy button
 2. Paste the prompt into an AI chat and send it

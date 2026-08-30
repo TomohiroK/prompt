@@ -30,6 +30,7 @@ app/
   [locale]/            # 言語別ルート（ja / en / ko / zh / es / pt）
     layout.tsx         # ルートレイアウト。metadata・hreflang
     page.tsx           # トップ（ヒーロー / 使い方 / ゲーム一覧）
+    how-to-play/       # 使い方（手順 / 復帰の仕方 / 共通設計 / FAQ）
     games/[slug]/      # ゲーム詳細（プロンプト全文 + コピー）
     not-found.tsx
   api/copy/route.ts    # コピー回数の記録・集計API
@@ -39,6 +40,7 @@ content/
   games/               # ゲーム本文（1ファイル1ゲーム × 6言語）
   types.ts             # Game / GameContent 型、カテゴリ・難易度ラベル
   ui.ts                # UI文言の辞書（6言語）
+  how-to-play.ts       # 使い方ページの本文（6言語）
 lib/
   i18n.ts              # ロケール定義、Accept-Language 判定
   site.ts              # サイト名・URL・貼り付け先サービス

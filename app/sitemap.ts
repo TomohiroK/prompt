@@ -28,6 +28,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     alternates: { languages: homeAlternates },
   }));
 
+  const howToPlayAlternates = Object.fromEntries(
+    locales.map((locale) => [
+      localeTags[locale],
+      `${site.url}/${locale}/how-to-play`,
+    ]),
+  );
+
+  const howToPlayPages = locales.map((locale) => ({
+    url: `${site.url}/${locale}/how-to-play`,
+    lastModified: latest,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+    alternates: { languages: howToPlayAlternates },
+  }));
+
   const gamePages = locales.flatMap((locale) =>
     games.map((game) => ({
       url: `${site.url}/${locale}/games/${game.slug}`,
@@ -45,5 +60,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   );
 
-  return [...home, ...gamePages];
+  return [...home, ...howToPlayPages, ...gamePages];
 }

@@ -28,7 +28,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             {strings.nav.games}
           </a>
           <a
-            href={`/${locale}#how-to-use`}
+            href={`/${locale}/how-to-play`}
             className="flex min-h-11 items-center transition-colors hover:text-magenta"
           >
             {strings.nav.howToUse}
