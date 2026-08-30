@@ -89,6 +89,15 @@ export type Game = {
   slug: string;
   category: GameCategory;
   difficulty: Difficulty;
+  /**
+   * 目安プレイ時間（分）。構造化データの timeRequired に使う。
+   *
+   * 各言語の content.playtime は、この数値を言語ごとの書き方で表示したもの
+   * （「20〜40分」「20-40 min」「20~40분」…）。数値は言語に依らないので
+   * ここに1つだけ持ち、表示用の文字列と二重に管理しない。
+   * 両者がずれていないことはブラウザ検証で確認している。
+   */
+  playtimeMinutes: { min: number; max: number };
   /** 言語ごとの本文。全対応言語を必ず埋める */
   content: Record<Locale, GameContent>;
 };

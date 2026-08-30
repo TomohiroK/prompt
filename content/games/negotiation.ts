@@ -4,6 +4,7 @@ export const negotiation: Game = {
   slug: "negotiation",
   category: "simulation",
   difficulty: "normal",
+  playtimeMinutes: { min: 10, max: 20 },
   content: {
     ja: {
       title: "価格交渉バトル",

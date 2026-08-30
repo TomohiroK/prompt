@@ -4,6 +4,7 @@ export const twentyQuestions: Game = {
   slug: "twenty-questions",
   category: "reasoning",
   difficulty: "easy",
+  playtimeMinutes: { min: 5, max: 10 },
   content: {
     ja: {
       title: "20の質問",

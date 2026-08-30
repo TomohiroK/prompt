@@ -27,15 +27,35 @@ export default async function HomePage({ params }: PageProps) {
 
   const strings = ui[locale];
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: site.name,
-    alternateName: site.nameJa,
-    url: `${site.url}/${locale}`,
-    description: strings.seo.description,
-    inLanguage: locale,
-  };
+  /**
+   * このページが何であるかと、何の索引であるかを機械に伝える。
+   *
+   * ItemList は検索結果の見た目を変えるものではない。トップが7本のゲームの
+   * 索引であることを、AI や検索エンジンが本文の解析なしに取れるようにする。
+   */
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: site.name,
+      alternateName: site.nameJa,
+      url: `${site.url}/${locale}`,
+      description: strings.seo.description,
+      inLanguage: locale,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: strings.gamesSection.heading,
+      numberOfItems: games.length,
+      itemListElement: games.map((game, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: game.content[locale].title,
+        url: `${site.url}/${locale}/games/${game.slug}`,
+      })),
+    },
+  ];
 
   return (
     <>

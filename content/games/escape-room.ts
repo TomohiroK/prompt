@@ -4,6 +4,7 @@ export const escapeRoom: Game = {
   slug: "escape-room",
   category: "adventure",
   difficulty: "normal",
+  playtimeMinutes: { min: 20, max: 40 },
   content: {
     ja: {
       title: "密室脱出",

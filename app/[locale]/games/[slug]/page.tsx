@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { games, getGameBySlug } from "@/content/games";
+import { categoryLabels } from "@/content/types";
 import { ui } from "@/content/ui";
 import { CategoryBadge, DifficultyBadge } from "@/components/Badge";
 import { PromptPanel } from "@/components/PromptPanel";
@@ -85,18 +86,72 @@ export default async function GamePage({ params }: PageProps) {
   const strings = ui[locale];
   const otherGames = games.filter((item) => item.slug !== game.slug);
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    name: content.title,
-    description: content.description,
-    inLanguage: locale,
-    step: content.howToPlay.map((text, index) => ({
-      "@type": "HowToStep",
-      position: index + 1,
-      text,
-    })),
-  };
+  /**
+   * 3つを出す。それぞれ役割が違う。
+   *
+   * BreadcrumbList
+   *   このサイトで唯一、検索結果の見た目が変わるもの（パンくず表示）。
+   *   画面に出ているパンくずと同じ内容にしている。
+   * Game
+   *   ページに表示済みの情報だけで組む。評価や価格は持っていないので書かない。
+   *   （持っていない値を書くのは構造化データのポリシー違反にあたる）
+   * HowTo
+   *   Google は 2023年に HowTo のリッチリザルトを廃止しており、検索結果の
+   *   見た目には効かない。ただし手順の列挙という意味づけは正確なので、
+   *   AI に遊び方を読ませる用途として残す。
+   */
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: strings.detail.breadcrumbHome,
+          item: `${site.url}/${locale}`,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: strings.detail.breadcrumbGames,
+          item: `${site.url}/${locale}#games`,
+        },
+        // 末尾は現在地。Google の推奨に従い item を持たせない
+        { "@type": "ListItem", position: 3, name: content.title },
+      ],
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Game",
+      name: content.title,
+      description: content.description,
+      url: `${site.url}/${locale}/games/${game.slug}`,
+      genre: categoryLabels[locale][game.category],
+      inLanguage: locale,
+      playMode: "SinglePlayer",
+      numberOfPlayers: {
+        "@type": "QuantitativeValue",
+        minValue: 1,
+        maxValue: 1,
+      },
+      // 幅のある目安なので上限を出す
+      timeRequired: `PT${game.playtimeMinutes.max}M`,
+      isAccessibleForFree: true,
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      name: content.title,
+      description: content.description,
+      inLanguage: locale,
+      step: content.howToPlay.map((text, index) => ({
+        "@type": "HowToStep",
+        position: index + 1,
+        text,
+      })),
+    },
+  ];
 
   return (
     <>

@@ -4,6 +4,7 @@ export const findTheLiar: Game = {
   slug: "find-the-liar",
   category: "reasoning",
   difficulty: "hard",
+  playtimeMinutes: { min: 15, max: 30 },
   content: {
     ja: {
       title: "嘘つき当てゲーム",

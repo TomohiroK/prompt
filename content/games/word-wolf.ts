@@ -4,6 +4,7 @@ export const wordWolf: Game = {
   slug: "word-wolf",
   category: "hidden-role",
   difficulty: "normal",
+  playtimeMinutes: { min: 10, max: 20 },
   content: {
     ja: {
       title: "ワードウルフ（1人用）",

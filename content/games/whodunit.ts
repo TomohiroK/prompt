@@ -4,6 +4,7 @@ export const whodunit: Game = {
   slug: "whodunit",
   category: "reasoning",
   difficulty: "normal",
+  playtimeMinutes: { min: 15, max: 30 },
   content: {
     ja: {
       title: "犯人当てミステリー",
