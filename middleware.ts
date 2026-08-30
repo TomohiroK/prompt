@@ -22,6 +22,6 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  /** api / _next / 拡張子つきの静的ファイル（llms.txt, robots.txt 等）は対象外 */
+  // api / _next / 拡張子つきの静的ファイル（llms.txt, robots.txt 等）は対象外
   matcher: ["/((?!api|_next|.*\\..*).*)"],
 };
