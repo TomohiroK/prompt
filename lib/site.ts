@@ -39,6 +39,15 @@ export const site = {
 } as const;
 
 /** コピー後に貼り付ける先の候補。増減はこの配列だけで完結する。 */
+/**
+ * Google Analytics 4 の測定ID。
+ *
+ * 測定IDは HTML に出力される公開値であり、秘密情報ではない。
+ * ただし環境ごとに差し替えられるよう、環境変数を優先する。
+ */
+export const gaMeasurementId =
+  process.env.NEXT_PUBLIC_GA_ID ?? "G-NP1H3RYTS5";
+
 export const chatServices = [
   { name: "ChatGPT", url: "https://chatgpt.com/" },
   { name: "Claude", url: "https://claude.ai/new" },

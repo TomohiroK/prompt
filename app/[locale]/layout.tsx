@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
-import { site } from "@/lib/site";
+import { gaMeasurementId, site } from "@/lib/site";
 import {
   isLocale,
   locales,
@@ -24,6 +24,9 @@ export function generateStaticParams() {
 
 /** 未対応の言語コードは 404 にする */
 export const dynamicParams = false;
+
+/** 計測タグを出すかどうか。開発サーバーの操作を計測に混ぜない */
+const isProduction = process.env.NODE_ENV === "production";
 
 /** 全言語版への hreflang。x-default は英語版を指す。 */
 const languageAlternates = Object.fromEntries(
@@ -111,6 +114,30 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
           href="/llms-en.txt"
           hrefLang="en"
         />
+
+        {/*
+          Google Analytics 4。
+
+          next/script は使わない。strategy="afterInteractive" は <body> に注入され、
+          Search Console の GA 認証（<head> にタグがあること）が通らない。
+          beforeInteractive を試したが、インラインぶんは <head> の外に出た。
+
+          さらに、初期化処理をインラインの <script> として置くと、素の script でも
+          next/script でも、Next.js の segment prefetch が一部ロケール（es / pt）で
+          404 を返すようになる。実測で確認したため、インラインを持たない構成にする。
+          初期化は public/ga.js に外出しし、測定IDは data 属性で渡す。
+
+          開発時（npm run dev）は送信しない。
+        */}
+        {isProduction && gaMeasurementId ? (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}
+            />
+            <script async src="/ga.js" data-ga-id={gaMeasurementId} />
+          </>
+        ) : null}
       </head>
       <body className="min-h-dvh flex flex-col">
         <SiteHeader locale={typedLocale} />
