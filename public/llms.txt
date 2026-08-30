@@ -1,6 +1,5 @@
 # CHAT GAME（チャットゲーム）
 
-URL: https://chat-game.vercel.app
 English version: /llms-en.txt
 詳細版: /llms-full.txt
 

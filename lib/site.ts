@@ -5,13 +5,35 @@ import type { Locale } from "./i18n";
  * 名称・キャッチコピー・URL を変える場合はこのファイルだけを書き換える。
  * （仮説検証のたびにコンポーネントを書き換えない設計）
  */
+/**
+ * 本番の URL。
+ *
+ * ここに固定値を書かない。
+ * 過去に、実在を確認しないまま推測でドメインを書き込んだことがある。
+ * そのアドレスは第三者の実在サイトで、canonical・OGP・sitemap の全 URL が
+ * 無関係なサイトを指す状態になっていた。同じことを繰り返さないため、
+ * ドメインは環境から受け取るだけにして、コードには一切書かない。
+ *
+ * Vercel は本番ドメインをビルド時に環境変数で渡すので、そこから取る。
+ * 独自ドメインを使う場合のみ NEXT_PUBLIC_SITE_URL で上書きする。
+ */
+function resolveSiteUrl(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL;
+  if (explicit) return explicit.replace(/\/$/, "");
+
+  const vercel = process.env.VERCEL_PROJECT_PRODUCTION_URL;
+  if (vercel) return `https://${vercel}`;
+
+  return "http://localhost:3000";
+}
+
 export const site = {
   name: "CHAT GAME",
   nameJa: "チャットゲーム",
   tagline: "貼るだけで 対戦相手",
   description:
     "ChatGPT・Claude・Gemini にそのまま貼り付けて遊べる「ゲームになるプロンプト」を集めたサイト。ワンクリックでコピーして、AIとの対話をそのままゲームに変えられます。",
-  url: "https://chat-game.vercel.app",
+  url: resolveSiteUrl(),
   locale: "ja_JP",
   author: "TomohiroK",
 } as const;
