@@ -44,7 +44,15 @@ lib/
   site.ts              # サイト名・URL・貼り付け先サービス
   copy-counter.ts      # コピー回数のストレージアダプタ
 middleware.ts          # 言語プレフィックスなしパスのリダイレクト
-public/                # llms.txt 4種
+public/
+  llms*.txt            # AI向けサイト情報 4種
+  og/                  # OGP画像（6言語 × 1200×630）
+  hero/                # キービジュアル（日本語版のみ）
+  icon.svg, favicon.ico, apple-icon.png
+  ga.js                # Google Analytics の初期化
+scripts/
+  make-og.mjs          # OGP画像の書き出し
+  check-text.mjs       # 対応6言語以外の文字体系が混入していないかの検査
 docs/                  # 設計メモ
 ```
 

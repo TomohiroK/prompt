@@ -127,17 +127,91 @@ API は `app/api/copy/route.ts`。
 - 6言語 × 5ビューポート（320 / 375 / 390 / 768 / 1280）× トップ・詳細で横スクロールが出ない
 - 操作要素（ボタン・ナビ）の高さが44px以上
 - 320px幅でCTAのテキストが2行に折り返さない
-- 6言語 × 6ゲーム = 36通りでコピー内容が画面の本文と完全一致する
+- 6言語 × 7ゲーム = 42通りでコピー内容が画面の本文と完全一致する
 - コピー回数が3ラウンド連続で正しく加算される
 - `llms.txt` 4種 / `robots.txt` / `sitemap.xml` が200を返す
+- 6言語 × トップ・詳細で `og:image` / `twitter:image` が出て、画像の実体が200を返す
+- 6言語 × 7ゲームで `BreadcrumbList` / `Game` / `HowTo` が揃い、
+  `timeRequired` の分数が画面の表示と食い違わない
+- ブラウザのコンソールにエラーが出ない
+
+この検査は件数を数え、ゲームや言語を足すと自動で対象が増える。
+過去に、ゲームを1本足したときこのドキュメントの件数だけ直し忘れた。
+数を本文に書くときは、実データから数えた値と照らすこと。
 
 320px幅はヘッダーが最も詰まる。言語名やワードマークは `sm` 未満で畳んでいる。
 
 ## SEO
 
-- `sitemap.xml` は 6言語 × 7ページ = 42URL を hreflang 付きで出力する
+- `sitemap.xml` は 6言語 × 8ページ = 48URL を hreflang 付きで出力する
 - `layout.tsx` が全言語版への hreflang と `x-default`（英語）を持つ
 - ページ側で `alternates` を再定義すると layout の hreflang が丸ごと置き換わるため、
   トップページでは `generateMetadata` を定義していない
 - AI向けSEOとして `public/llms.txt`・`llms-full.txt`・`llms-en.txt`・`llms-full-en.txt` を配置し、
   `robots.txt` で主要なAIクローラーを明示的に許可している
+
+### 検索用の文言はヒーローのコピーと分けて持つ
+
+`content/ui.ts` の `seo`（`title` / `titleTemplate` / `description`）が検索用。
+`hero.title1` / `title2` は画面に出すキャッチコピーで、別物として扱う。
+
+以前は `<title>` を `${site.name} — ${hero.title1} ${hero.title2}` で組み立てていた。
+結果、6言語すべての `<title>` に検索語が1つも入らなかった。これは文言ではなく
+構造の問題で、目的が違うものを同じ文字列で兼ねると必ず再発する。
+
+同じ理由で `siteDescription`（フッターに出す表示文）と `seo.description`
+（meta / OGP / JSON-LD）も分けてある。
+
+`title` にブランド名は入れない。無名のブランド名に検索需要はなく、
+表示上限の文字数は検索語に使うほうが得。ブランドはヘッダー・URL・`og:site_name` に出る。
+
+### 構造化データ
+
+出しているのは3つだけで、それぞれ役割が違う。
+
+| 型 | 置き場所 | 役割 |
+|----|---------|------|
+| `WebSite` + `ItemList` | トップ | トップが7本の索引であることを機械可読にする |
+| `BreadcrumbList` | 詳細 | このサイトで唯一、検索結果の表示が変わる |
+| `Game` | 詳細 | 画面に出ている情報だけで組む |
+| `HowTo` | 詳細 | 検索結果には効かない（Google は2023年に廃止）。手順の列挙という意味づけは正確なので AI 向けに残す |
+
+`SoftwareApplication` は採らない（このサイトはアプリではない）。
+`aggregateRating` / `offers` / `review` も書かない。評価も価格も持っておらず、
+持っていない値を書くのは構造化データのポリシー違反にあたる。
+
+### OGP画像
+
+`public/og/{locale}.png`（1200×630）を6枚。`scripts/make-og.mjs` で書き出す。
+
+`next/og` による実行時生成は採らなかった。日本語・韓国語・中国語を描くには
+実行時にフォントを持つ必要があり、サーバーレス環境に不確実性を持ち込む。
+
+画像の文言は `content/ui.ts` から直接読んでいるので、ヒーローの文言を変えたら
+スクリプトを流し直せば追従する。画像用のコピーを別に持たない。
+
+**ページ側で `openGraph` を返すと、レイアウトの指定は継承されず丸ごと置き換わる。**
+ゲーム詳細ページで画像だけ落ちていた事故があった。`alternates` も同じ挙動をする。
+
+### アイコン
+
+`public/icon.svg`・`favicon.ico`・`apple-icon.png` を置き、`layout.tsx` の
+`metadata.icons` で明示的に宣言している。
+
+`app/icon.svg` 等の Next.js のファイル規約は使わない。このプロジェクトは
+ルートレイアウトが動的セグメント（`app/[locale]/layout.tsx`）配下にあり、
+規約のファイルが拾われず404になることを実測で確認した。
+
+### アクセス解析
+
+Google Analytics 4。測定IDは `lib/site.ts`（`NEXT_PUBLIC_GA_ID` で上書き可）。
+測定IDは HTML に出る公開値であって秘密情報ではない。
+
+タグは `<head>` に置く。`next/script` の `afterInteractive` は `<body>` に
+注入され、Search Console の GA 認証（`<head>` にタグがあること）が通らない。
+
+初期化は `public/ga.js` に外出しし、インラインの `<script>` を持たない。
+インラインで置くと、素の script でも `next/script` でも、Next.js の
+segment prefetch が一部ロケールで404を返すようになる（実測で確認）。
+
+開発サーバー（`npm run dev`）では出力しない。自分の操作を計測に混ぜない。
