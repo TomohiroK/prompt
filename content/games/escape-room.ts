@@ -5,6 +5,7 @@ export const escapeRoom: Game = {
   category: "adventure",
   difficulty: "normal",
   playtimeMinutes: { min: 20, max: 40 },
+  updatedAt: "2026-08-29",
   content: {
     ja: {
       title: "密室脱出",

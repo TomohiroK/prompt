@@ -5,6 +5,7 @@ export const negotiation: Game = {
   category: "simulation",
   difficulty: "normal",
   playtimeMinutes: { min: 10, max: 20 },
+  updatedAt: "2026-08-29",
   content: {
     ja: {
       title: "価格交渉バトル",

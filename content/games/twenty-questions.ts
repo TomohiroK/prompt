@@ -5,6 +5,7 @@ export const twentyQuestions: Game = {
   category: "reasoning",
   difficulty: "easy",
   playtimeMinutes: { min: 5, max: 10 },
+  updatedAt: "2026-08-29",
   content: {
     ja: {
       title: "20の質問",

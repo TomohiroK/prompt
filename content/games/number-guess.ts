@@ -5,6 +5,7 @@ export const numberGuess: Game = {
   category: "reasoning",
   difficulty: "hard",
   playtimeMinutes: { min: 20, max: 40 },
+  updatedAt: "2026-08-29",
   content: {
     ja: {
       title: "数字当てゲーム",

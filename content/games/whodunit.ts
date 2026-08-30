@@ -5,6 +5,7 @@ export const whodunit: Game = {
   category: "reasoning",
   difficulty: "normal",
   playtimeMinutes: { min: 15, max: 30 },
+  updatedAt: "2026-08-29",
   content: {
     ja: {
       title: "犯人当てミステリー",

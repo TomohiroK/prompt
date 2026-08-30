@@ -108,6 +108,14 @@ export type Game = {
    * 両者がずれていないことはブラウザ検証で確認している。
    */
   playtimeMinutes: { min: number; max: number };
+  /**
+   * 本文の更新日（YYYY-MM-DD）。sitemap.xml の lastModified に使う。
+   *
+   * 「読み手にとって中身が変わった日」を書く。型の追加やリファクタでは変えない。
+   * ビルド時刻を入れると、デプロイのたびに全URLが更新されたことになり、
+   * 更新の合図として意味を失う。
+   */
+  updatedAt: string;
   /** 言語ごとの本文。全対応言語を必ず埋める */
   content: Record<Locale, GameContent>;
 };

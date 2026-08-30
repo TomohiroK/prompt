@@ -5,6 +5,7 @@ export const wordWolf: Game = {
   category: "hidden-role",
   difficulty: "normal",
   playtimeMinutes: { min: 10, max: 20 },
+  updatedAt: "2026-08-29",
   content: {
     ja: {
       title: "ワードウルフ（1人用）",

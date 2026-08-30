@@ -5,6 +5,7 @@ export const findTheLiar: Game = {
   category: "reasoning",
   difficulty: "hard",
   playtimeMinutes: { min: 15, max: 30 },
+  updatedAt: "2026-08-30",
   content: {
     ja: {
       title: "嘘つき当てゲーム",

@@ -5,6 +5,15 @@ import { fallbackLocale } from "@/lib/i18n";
 /**
  * ロケール配下の 404。not-found はパラメータを受け取れないため、
  * 表示言語は fallbackLocale（英語）に固定する。
+ *
+ * 表示言語を合わせようとして headers() を使ってはいけない。
+ * ミドルウェアでヘッダーに言語を載せて not-found から読む形を実測したところ、
+ * ルート全体が動的レンダリングに切り替わり、48ページの静的生成が失われた。
+ *
+ *   変更前  ● /ja  静的生成
+ *   変更後  ƒ /[locale]  毎リクエストでサーバー生成
+ *
+ * 404 の言語表示のために払う代償として釣り合わないため、英語固定のままにする。
  */
 export default function NotFound() {
   const strings = ui[fallbackLocale];

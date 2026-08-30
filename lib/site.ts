@@ -30,7 +30,6 @@ function resolveSiteUrl(): string {
 export const site = {
   name: "CHAT GAME",
   nameJa: "チャットゲーム",
-  tagline: "貼るだけで 対戦相手",
   description:
     "ChatGPT・Claude・Gemini にそのまま貼り付けて遊べる「ゲームになるプロンプト」を集めたサイト。ワンクリックでコピーして、AIとの対話をそのままゲームに変えられます。",
   url: resolveSiteUrl(),
