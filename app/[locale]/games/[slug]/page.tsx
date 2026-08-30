@@ -31,6 +31,14 @@ export async function generateMetadata({
   const content = game.content[locale];
   const description = `${content.tagline} ${content.description}`.slice(0, 150);
 
+  /**
+   * ページ側で openGraph / twitter を返すと、レイアウトの指定は継承されず
+   * 丸ごと置き換わる。画像もここで指定しないと共有時に画像なしになる。
+   */
+  const ogImage = `/og/${locale}.png`;
+  /** 検索結果のタイトルと、共有カードのタイトルを揃える */
+  const sharedTitle = ui[locale].seo.titleTemplate.replace("%s", content.title);
+
   return {
     title: content.title,
     description,
@@ -50,13 +58,17 @@ export async function generateMetadata({
       type: "article",
       locale: ogLocales[locale],
       url: `${site.url}/${locale}/games/${game.slug}`,
-      title: `${content.title} | ${site.name}`,
+      title: sharedTitle,
       description,
+      images: [
+        { url: ogImage, width: 1200, height: 630, alt: sharedTitle },
+      ],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${content.title} | ${site.name}`,
+      title: sharedTitle,
       description,
+      images: [ogImage],
     },
   };
 }

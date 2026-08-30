@@ -59,11 +59,20 @@ export async function generateMetadata({
       siteName: site.name,
       title: strings.seo.title,
       description: strings.seo.description,
+      images: [
+        {
+          url: `/og/${locale}.png`,
+          width: 1200,
+          height: 630,
+          alt: strings.seo.title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: strings.seo.title,
       description: strings.seo.description,
+      images: [`/og/${locale}.png`],
     },
     alternates: {
       canonical: `/${locale}`,
