@@ -9,6 +9,10 @@ type Props = {
   text: string;
   /** コピー回数の集計キー。ランキング用に記録される */
   slug: string;
+  /** 表示していた言語。内訳の集計に使う */
+  locale: string;
+  /** 押された面。card = 一覧のカード / detail = ゲーム詳細 */
+  surface: "card" | "detail";
   labels: { label: string; copied: string; error: string };
   tone?: "solid" | "quiet";
   size?: "sm" | "lg";
@@ -47,12 +51,16 @@ async function writeToClipboard(text: string): Promise<void> {
  * コピー回数を記録する。集計の失敗はコピー体験を妨げてはならないため、
  * 結果を待たず、失敗しても握りつぶす（ログのみ残す）。
  */
-function recordCopy(slug: string): void {
+function recordCopy(
+  slug: string,
+  locale: string,
+  surface: "card" | "detail",
+): void {
   try {
     void fetch("/api/copy", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slug }),
+      body: JSON.stringify({ slug, locale, surface }),
       keepalive: true,
     }).catch((error: unknown) => {
       console.warn("[CopyButton] failed to record copy", { slug, error });
@@ -65,6 +73,8 @@ function recordCopy(slug: string): void {
 export function CopyButton({
   text,
   slug,
+  locale,
+  surface,
   labels,
   tone = "solid",
   size = "lg",
@@ -92,7 +102,7 @@ export function CopyButton({
     try {
       await writeToClipboard(text);
       setState("copied");
-      recordCopy(slug);
+      recordCopy(slug, locale, surface);
     } catch (error) {
       console.error("[CopyButton] copy failed", {
         slug,
@@ -106,7 +116,7 @@ export function CopyButton({
       setState("idle");
       timerRef.current = null;
     }, 2200);
-  }, [text, slug]);
+  }, [text, slug, locale, surface]);
 
   const isCopied = state === "copied";
   const isError = state === "error";

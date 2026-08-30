@@ -48,6 +48,16 @@ export const site = {
 export const gaMeasurementId =
   process.env.NEXT_PUBLIC_GA_ID ?? "G-NP1H3RYTS5";
 
+/**
+ * 訴求の版。コピー数を版ごとに分けて数えるために使う。
+ *
+ * 同時に2案を出し分ける仕組みはまだ無い。当面は期間を区切って版を入れ替える
+ * 使い方を想定している（A週 → B週 → B週 → A週 のように戻しながら比べる）。
+ * デプロイごとに NEXT_PUBLIC_COPY_VARIANT を変えると、その期間の数が
+ * 別のキーに積まれる。未設定なら "base"。
+ */
+export const copyVariant = process.env.NEXT_PUBLIC_COPY_VARIANT ?? "base";
+
 export const chatServices = [
   { name: "ChatGPT", url: "https://chatgpt.com/" },
   { name: "Claude", url: "https://claude.ai/new" },

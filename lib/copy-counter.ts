@@ -10,6 +10,29 @@
 
 const KEY_PREFIX = "copy:";
 
+/**
+ * コピーが押された状況。
+ *
+ * slug だけを数えていた頃は、6言語ぶんの数が1つに混ざり、一覧から押されたのか
+ * 詳細を読んでから押されたのかも分からなかった。どちらも施策の判断に要る。
+ */
+export type CopyContext = {
+  /** 表示していた言語 */
+  locale: string;
+  /** 押された面。card = 一覧のカード / detail = ゲーム詳細 */
+  surface: "card" | "detail";
+  /** 訴求の版（lib/site.ts の copyVariant） */
+  variant: string;
+};
+
+/**
+ * 次元つきのキー。累計（copy:{slug}）とは別に積む。
+ * 累計を壊さずに内訳を足せるよう、既存キーはそのまま残す。
+ */
+function contextKey(slug: string, context: CopyContext): string {
+  return `copy:d1:${context.variant}:${context.locale}:${context.surface}:${slug}`;
+}
+
 /** Upstash Redis REST の接続情報。Vercel KV も同じ形式の環境変数を提供する。 */
 function getRedisConfig(): { url: string; token: string } | null {
   const url =
@@ -54,24 +77,72 @@ async function redisFetch(
  * slug のコピー回数を1増やし、増加後の累計を返す。
  * 記録に失敗しても呼び出し側の処理は継続できるよう、例外は投げない。
  */
-export async function incrementCopyCount(slug: string): Promise<number | null> {
+export async function incrementCopyCount(
+  slug: string,
+  context?: CopyContext,
+): Promise<number | null> {
+  const config = getRedisConfig();
+  const keys = [KEY_PREFIX + slug];
+  if (context) keys.push(contextKey(slug, context));
+
+  if (!config) {
+    for (const key of keys) memoryStore.set(key, (memoryStore.get(key) ?? 0) + 1);
+    return memoryStore.get(keys[0]) ?? 0;
+  }
+
+  try {
+    // 返すのは累計。内訳の書き込みが失敗しても累計は返す
+    const results = await Promise.allSettled(
+      keys.map((key) => redisFetch(config, `incr/${encodeURIComponent(key)}`)),
+    );
+    const first = results[0];
+    if (first.status === "rejected") throw first.reason;
+
+    const failed = results.slice(1).filter((r) => r.status === "rejected");
+    if (failed.length > 0) {
+      console.error("[copy-counter] breakdown increment failed", { slug, context });
+    }
+    return typeof first.value === "number" ? first.value : Number(first.value);
+  } catch (error) {
+    console.error("[copy-counter] increment failed", { slug, error });
+    return null;
+  }
+}
+
+/**
+ * 内訳を返す。言語 × 面 × ゲーム の全組み合わせを引く。
+ * 組み合わせは有限（言語6 × 面2 × ゲーム7 = 84）なので、まとめて取得できる。
+ */
+export async function getCopyBreakdown(
+  slugs: string[],
+  locales: readonly string[],
+  variant: string,
+): Promise<{ locale: string; surface: string; slug: string; count: number }[]> {
+  const surfaces = ["card", "detail"] as const;
+  const combos = locales.flatMap((locale) =>
+    surfaces.flatMap((surface) => slugs.map((slug) => ({ locale, surface, slug }))),
+  );
+  if (combos.length === 0) return [];
+
+  const keys = combos.map((c) =>
+    contextKey(c.slug, { locale: c.locale, surface: c.surface, variant }),
+  );
   const config = getRedisConfig();
 
   if (!config) {
-    const next = (memoryStore.get(slug) ?? 0) + 1;
-    memoryStore.set(slug, next);
-    return next;
+    return combos.map((c, i) => ({ ...c, count: memoryStore.get(keys[i]) ?? 0 }));
   }
 
   try {
     const result = await redisFetch(
       config,
-      `incr/${encodeURIComponent(KEY_PREFIX + slug)}`,
+      `mget/${keys.map((k) => encodeURIComponent(k)).join("/")}`,
     );
-    return typeof result === "number" ? result : Number(result);
+    const values = Array.isArray(result) ? result : [];
+    return combos.map((c, i) => ({ ...c, count: toCount(values[i]) }));
   } catch (error) {
-    console.error("[copy-counter] increment failed", { slug, error });
-    return null;
+    console.error("[copy-counter] breakdown read failed", { error });
+    return combos.map((c) => ({ ...c, count: 0 }));
   }
 }
 
@@ -83,7 +154,7 @@ export async function getCopyCounts(slugs: string[]): Promise<CopyCount[]> {
 
   if (!config) {
     return sortByCount(
-      slugs.map((slug) => ({ slug, count: memoryStore.get(slug) ?? 0 })),
+      slugs.map((slug) => ({ slug, count: memoryStore.get(KEY_PREFIX + slug) ?? 0 })),
     );
   }
 

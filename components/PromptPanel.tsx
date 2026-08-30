@@ -40,7 +40,14 @@ export function PromptPanel({
       </p>
 
       <div className="mt-4">
-        <CopyButton text={prompt} slug={slug} labels={strings.copy} size="lg" />
+        <CopyButton
+          text={prompt}
+          slug={slug}
+          locale={locale}
+          surface="detail"
+          labels={strings.copy}
+          size="lg"
+        />
       </div>
 
       <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">

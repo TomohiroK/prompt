@@ -62,6 +62,8 @@ export function GameCard({ game, locale }: { game: Game; locale: Locale }) {
           <CopyButton
             text={content.prompt}
             slug={game.slug}
+            locale={locale}
+            surface="card"
             labels={strings.copy}
             size="sm"
             className="min-w-0 lg:flex-1"
