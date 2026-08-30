@@ -6,6 +6,7 @@
 const accents: Record<string, string> = {
   "number-guess": "#e5187f",
   whodunit: "#6a2cc0",
+  "find-the-liar": "#be123c",
   "word-wolf": "#9333ea",
   "escape-room": "#0d9488",
   negotiation: "#d97706",

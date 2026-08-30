@@ -4,6 +4,7 @@ import { numberGuess } from "./number-guess";
 import { twentyQuestions } from "./twenty-questions";
 import { wordWolf } from "./word-wolf";
 import { whodunit } from "./whodunit";
+import { findTheLiar } from "./find-the-liar";
 import { escapeRoom } from "./escape-room";
 import { negotiation } from "./negotiation";
 
@@ -14,6 +15,7 @@ import { negotiation } from "./negotiation";
 export const games: Game[] = [
   numberGuess,
   whodunit,
+  findTheLiar,
   wordWolf,
   escapeRoom,
   negotiation,

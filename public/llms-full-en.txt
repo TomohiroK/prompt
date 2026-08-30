@@ -20,7 +20,7 @@ Every page carries hreflang links to all six versions.
 - /{locale} (home): introduction, three-step usage guide, card list of every game with inline copy buttons
 - /{locale}/games/{slug} (game detail): description, full prompt with copy button, how to play, strategy tips
 - /llms.txt, /llms-full.txt, /llms-en.txt, /llms-full-en.txt: information for AI agents
-- /robots.txt, /sitemap.xml (6 locales x 7 pages = 42 URLs)
+- /robots.txt, /sitemap.xml (6 locales x 8 pages = 48 URLs)
 
 ## Games
 
@@ -40,6 +40,16 @@ always tell the truth; only the culprit lies, and only about facts that
 incriminate them. The player may ask each suspect up to three questions (nine in
 total). The case is required to be solvable purely by cross-checking times and
 locations.
+
+### Spot the Liar (/{locale}/games/find-the-liar)
+Category: deduction / Difficulty: hard / About 15-30 min / 1 player
+The AI sets up a trivial incident (someone ate the last cake) and three
+characters, A, B and C. Two facts are decided independently: who caused the
+incident, and who is the liar. They may or may not be the same person. The liar
+inverts the truth of every statement, including statements about themselves; the
+other two always tell the truth. The player has seven questions, counted by
+proposition rather than by sentence, so asking about two people at once costs
+two. Winning requires naming both the culprit and the liar.
 
 ### Word Wolf, solo edition (/{locale}/games/word-wolf)
 Category: hidden role / Difficulty: normal / About 10-20 min / 1 player
@@ -93,4 +103,4 @@ A. Replying "follow the rules from the original instructions" usually restores i
 Q. May I modify the prompts?
 A. Yes. They are written to be edited, for example to change the turn limit.
 
-Last updated: 2026-08-29
+Last updated: 2026-08-30

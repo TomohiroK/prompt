@@ -22,6 +22,7 @@ Accept-Language header, falling back to English when no supported language match
 ## Game index (prefix each path with /{locale})
 - Number Guessing (/games/number-guess) - Ask two NPCs 10 questions total to deduce their hidden numbers. Difficulty: hard
 - Whodunit (/games/whodunit) - Interrogate three suspects and find the contradiction that exposes the culprit. Difficulty: normal
+- Spot the Liar (/games/find-the-liar) - Seven questions to identify both the culprit and the liar, who are set independently. Difficulty: hard
 - Word Wolf, solo edition (/games/word-wolf) - The AI plays four characters; one holds a different secret word. Difficulty: normal
 - Escape Room (/games/escape-room) - A text adventure with a 30-turn limit. Difficulty: normal
 - Haggle (/games/negotiation) - Negotiate for 10 turns against a merchant with a hidden reserve price. Difficulty: normal
@@ -37,4 +38,4 @@ Every prompt embeds explicit fairness rules that forbid the AI from changing the
 hidden answer after the game starts, from contradicting earlier statements, and
 from fabricating a solution after seeing the player's guess.
 
-Last updated: 2026-08-29
+Last updated: 2026-08-30
