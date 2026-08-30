@@ -64,6 +64,18 @@ export async function generateMetadata({
       canonical: `/${locale}`,
       languages: { ...languageAlternates, "x-default": "/en" },
     },
+    /**
+     * アイコンは public/ に置き、ここで明示的に宣言する。
+     * app/icon.svg 等のファイル規約は、このプロジェクトのようにルートレイアウトが
+     * 動的セグメント（[locale]）配下にある構成では拾われず 404 になる。
+     */
+    icons: {
+      icon: [
+        { url: "/icon.svg", type: "image/svg+xml" },
+        { url: "/favicon.ico", sizes: "16x16 32x32 48x48", type: "image/x-icon" },
+      ],
+      apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+    },
   };
 }
 
