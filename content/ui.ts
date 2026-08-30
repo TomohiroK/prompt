@@ -1,7 +1,32 @@
 import type { Locale } from "@/lib/i18n";
 
 export type UIStrings = {
+  /**
+   * フッターに表示する説明文。画面に出る文章であって検索用ではない。
+   * 検索エンジンに出す文言は seo.description を使う。
+   */
   siteDescription: string;
+  /**
+   * 検索結果に出る文言。
+   *
+   * ヒーローのキャッチコピー（hero.title1 / title2）とは別に持つ。
+   * 兼ねると、コピーを差し替えるたびに検索結果の見出しが巻き添えで変わる。
+   * 逆に、検索語を入れたいがためにキャッチコピーが説明文になる。
+   * 目的が違うものは別のフィールドにする。
+   */
+  seo: {
+    /**
+     * トップページの title。
+     * ブランド名（CHAT GAME）は入れない。無名のブランド名に検索需要はなく、
+     * 表示上限の文字数は検索語に使うほうが得。ブランドはヘッダー・URL・
+     * og:site_name に出ている。
+     */
+    title: string;
+    /** 下層ページの title。%s にページ名が入る */
+    titleTemplate: string;
+    /** meta description / OGP / JSON-LD で共通に使う */
+    description: string;
+  };
   nav: { games: string; howToUse: string; language: string };
   hero: {
     badge: string;
@@ -40,6 +65,12 @@ export const ui: Record<Locale, UIStrings> = {
   ja: {
     siteDescription:
       "ChatGPT・Claude・Gemini にそのまま貼り付けて遊べる「ゲームになるプロンプト」を集めたサイト。ワンクリックでコピーして、AIとの対話をそのままゲームに変えられます。",
+    seo: {
+      title: "ChatGPTで遊べるゲームプロンプト7選 コピペで今すぐ遊べる",
+      titleTemplate: "%s｜ChatGPTで遊べるゲームプロンプト",
+      description:
+        "ChatGPT・Claude・Gemini にコピペで貼るだけで遊べるゲームプロンプトを7本、無料で公開しています。登録もインストールもAPIキーも不要。推理・正体隠匿・密室脱出・価格交渉など、1人で5分から遊べます。",
+    },
     nav: { games: "ゲーム一覧", howToUse: "使い方", language: "言語" },
     hero: {
       badge: "コピペで遊べるプロンプト集",
@@ -107,6 +138,12 @@ export const ui: Record<Locale, UIStrings> = {
   en: {
     siteDescription:
       "A collection of prompts that turn ChatGPT, Claude, or Gemini into a playable game. Copy one with a single click, paste it into your AI chat, and start playing.",
+    seo: {
+      title: "ChatGPT Game Prompts — 7 Games You Can Copy and Paste",
+      titleTemplate: "%s — ChatGPT Game Prompt",
+      description:
+        "Seven game prompts you can paste into ChatGPT, Claude or Gemini and play — whodunit, escape room, social deduction and more. No install, no sign-up, no API key.",
+    },
     nav: { games: "Games", howToUse: "How to use", language: "Language" },
     hero: {
       badge: "Copy-and-paste prompt collection",
@@ -174,6 +211,12 @@ export const ui: Record<Locale, UIStrings> = {
   ko: {
     siteDescription:
       "ChatGPT·Claude·Gemini에 그대로 붙여넣으면 게임이 되는 프롬프트 모음. 원클릭으로 복사해 AI와의 대화를 그대로 게임으로 바꿀 수 있습니다.",
+    seo: {
+      title: "챗GPT 게임 프롬프트 7선 — 복붙해서 바로 노는 AI 게임",
+      titleTemplate: "%s — 챗GPT 게임 프롬프트",
+      description:
+        "ChatGPT·Claude·Gemini에 복사해서 붙여넣기만 하면 바로 게임이 되는 프롬프트 7가지. 설치도 가입도 API 키도 필요 없습니다. 추리·정체 은닉·밀실 탈출 등 혼자서 5분부터.",
+    },
     nav: { games: "게임 목록", howToUse: "사용법", language: "언어" },
     hero: {
       badge: "복사해서 붙여넣는 프롬프트 모음",
@@ -241,6 +284,12 @@ export const ui: Record<Locale, UIStrings> = {
   zh: {
     siteDescription:
       "收录可直接粘贴到 ChatGPT、Claude、Gemini 中即可开玩的「游戏提示词」。一键复制，把与 AI 的对话变成一局游戏。",
+    seo: {
+      title: "ChatGPT 游戏提示词 7 款 — 复制粘贴就能玩的 AI 文字游戏",
+      titleTemplate: "%s — ChatGPT 游戏提示词",
+      description:
+        "把提示词复制粘贴到 ChatGPT、Claude、Gemini，对话立刻变成一局游戏。收录推理、身份隐藏、密室逃脱等 7 款，免安装、免注册、免 API 密钥，一个人 5 分钟起。",
+    },
     nav: { games: "游戏列表", howToUse: "使用方法", language: "语言" },
     hero: {
       badge: "复制即玩的提示词合集",
@@ -307,6 +356,12 @@ export const ui: Record<Locale, UIStrings> = {
   es: {
     siteDescription:
       "Una colección de prompts que convierten ChatGPT, Claude o Gemini en un juego. Cópialos con un clic, pégalos en tu chat de IA y empieza a jugar.",
+    seo: {
+      title: "Prompts de juegos para ChatGPT — 7 para copiar y pegar",
+      titleTemplate: "%s — Prompt de juego para ChatGPT",
+      description:
+        "Siete prompts que convierten ChatGPT, Claude o Gemini en un juego: misterio, escape, engaño. Copia, pega en el chat y juega. Sin instalar nada, sin registro y sin clave de API.",
+    },
     nav: { games: "Juegos", howToUse: "Cómo usarlo", language: "Idioma" },
     hero: {
       badge: "Prompts listos para copiar y pegar",
@@ -374,6 +429,12 @@ export const ui: Record<Locale, UIStrings> = {
   pt: {
     siteDescription:
       "Uma coleção de prompts que transformam o ChatGPT, o Claude ou o Gemini em um jogo. Copie com um clique, cole no seu chat de IA e comece a jogar.",
+    seo: {
+      title: "Jogos no ChatGPT — 7 prompts prontos para copiar e colar",
+      titleTemplate: "%s — Prompt pronto para ChatGPT",
+      description:
+        "Sete prompts prontos que transformam o ChatGPT, o Claude ou o Gemini em um jogo: mistério, fuga, blefe. Copie, cole no chat e jogue. Sem instalar, sem cadastro e sem chave de API.",
+    },
     nav: { games: "Jogos", howToUse: "Como usar", language: "Idioma" },
     hero: {
       badge: "Prompts prontos para copiar e colar",

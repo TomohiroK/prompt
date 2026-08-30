@@ -33,7 +33,7 @@ export default async function HomePage({ params }: PageProps) {
     name: site.name,
     alternateName: site.nameJa,
     url: `${site.url}/${locale}`,
-    description: strings.siteDescription,
+    description: strings.seo.description,
     inLanguage: locale,
   };
 

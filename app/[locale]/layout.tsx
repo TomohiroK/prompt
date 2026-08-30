@@ -42,12 +42,14 @@ export async function generateMetadata({
   if (!isLocale(locale)) return {};
 
   const strings = ui[locale];
-  const title = `${site.name} — ${strings.hero.title1} ${strings.hero.title2}`;
 
   return {
     metadataBase: new URL(site.url),
-    title: { default: title, template: `%s | ${site.name}` },
-    description: strings.siteDescription,
+    title: {
+      default: strings.seo.title,
+      template: strings.seo.titleTemplate,
+    },
+    description: strings.seo.description,
     applicationName: site.name,
     authors: [{ name: site.author }],
     openGraph: {
@@ -55,13 +57,13 @@ export async function generateMetadata({
       locale: ogLocales[locale],
       url: `${site.url}/${locale}`,
       siteName: site.name,
-      title,
-      description: strings.siteDescription,
+      title: strings.seo.title,
+      description: strings.seo.description,
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description: strings.siteDescription,
+      title: strings.seo.title,
+      description: strings.seo.description,
     },
     alternates: {
       canonical: `/${locale}`,
