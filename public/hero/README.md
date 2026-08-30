@@ -34,3 +34,25 @@
   `content/ui.ts` の `hero.title1` / `hero.title2` も合わせて直す。
 - 画像の中のボタンは押せない。画像の直下に実物のボタンを置いてある。
   画像自体はリンクにしていない（ポスターの一部だけが押せるように見えるのを避けるため）。
+
+## 幅違いの書き出し
+
+表示幅の上限は 560px。1枚だけ置くと、その画面にも最大の画像を送ることになる。
+この画像は日本語トップの LCP を決めるので、転送量がそのまま表示速度に出る。
+
+`poster-ja.png`（入稿原本）から3枚を書き出す。
+
+```bash
+node -e "
+const sharp = require('sharp');
+for (const w of [560, 750, 1122])
+  sharp('public/hero/poster-ja.png').resize({ width: w })
+    .webp({ quality: 75 }).toFile('public/hero/poster-ja-' + w + '.webp');
+"
+```
+
+quality は 75。82 と見比べて、文字にも人物にも差が出ないことを確認している。
+
+書き出したら `lib/site.ts` の `heroPoster.ja.sources` と幅を合わせる。
+どの幅が実際に選ばれるかは、端末幅と画素密度を変えてブラウザで確認すること
+（375px / DPR2 で 750、1280px / DPR1 で 560 が選ばれる）。

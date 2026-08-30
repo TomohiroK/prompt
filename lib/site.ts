@@ -68,23 +68,34 @@ export const chatServices = [
  * 注意:
  * - 画像に焼き込まれた文字は検索エンジンにもスクリーンリーダーにも届かない。
  *   そのため同じ内容の見出しを、目に見えない形で必ず併置している。
- * - 画像の中のボタンは押せない。ポスター全体をゲーム一覧へのリンクにしたうえで、
- *   画像の下に実物のボタンを置いている。
+ * - 画像の中のボタンは押せない。画像の直下に実物のボタンを置いている。
+ *   画像自体はリンクにしていない（ポスターの一部だけが押せるように見えるのを避ける）。
  * - width / height は画像本来の画素数。CLS（読み込み時のがたつき）を防ぐために要る。
+ * - 幅違いを用意する。1枚だけだと、表示幅 560px の画面にも最大の画像を送ることになる。
+ *   この画像はトップの LCP を決めるので、ここの転送量がそのまま表示速度に出る。
  */
 export type HeroPoster = {
-  src: string;
+  /** srcset に並べる幅違い。幅の小さい順に書き、最後が最大 */
+  sources: { width: number; src: string }[];
   alt: string;
+  /** 最大の画像の画素数。width / height 属性に使う */
   width: number;
   height: number;
+  /** CSS 上の表示幅の上限（px）。sizes 属性に使う */
+  displayMaxWidth: number;
 };
 
 export const heroPoster: Partial<Record<Locale, HeroPoster>> = {
   ja: {
     // 配信するのは WebP。入稿された PNG は 2.4MB あり、そのままでは重すぎる
-    src: "/hero/poster-ja.webp",
+    sources: [
+      { width: 560, src: "/hero/poster-ja-560.webp" },
+      { width: 750, src: "/hero/poster-ja-750.webp" },
+      { width: 1122, src: "/hero/poster-ja-1122.webp" },
+    ],
     alt: "貼るだけで、対戦相手。AIチャットにルールを貼り付けると、AIがゲームの相手になります。",
     width: 1122,
     height: 1402,
+    displayMaxWidth: 560,
   },
 };

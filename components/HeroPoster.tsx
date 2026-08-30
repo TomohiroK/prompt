@@ -24,10 +24,17 @@ export function HeroPoster({ locale }: { locale: Locale }) {
         {strings.hero.title1} {strings.hero.title2} — {site.name}
       </h1>
 
-      {/* 支給素材のため next/image ではなく img を使う。寸法は固定で渡す */}
+      {/*
+        支給素材なので next/image ではなく img を使い、幅違いは事前に書き出してある。
+        実行時の画像最適化を挟まないぶん、変換の失敗も費用も発生しない。
+        srcset / sizes はブラウザに選ばせるためのもの。表示幅 560px の画面に
+        1122px の画像を送らない。
+      */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={art.src}
+        src={art.sources[art.sources.length - 1].src}
+        srcSet={art.sources.map((s) => `${s.src} ${s.width}w`).join(", ")}
+        sizes={`(max-width: ${art.displayMaxWidth}px) 100vw, ${art.displayMaxWidth}px`}
         alt={art.alt}
         width={art.width}
         height={art.height}
